@@ -16,6 +16,7 @@ import {
   ChevronDown,
   Phone,
   LogOut,
+  LayoutDashboard,
   Facebook,
   Twitter,
   Linkedin,
@@ -41,8 +42,9 @@ const navLinks = [
 export default function Navbar() {
   const { count } = useCart();
   const router = useRouter();
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const loggedIn = status === "authenticated";
+  const isAdmin = session?.user?.role === "ADMIN";
   const [mobileOpen, setMobileOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
   const [bannerOpen, setBannerOpen] = useState(true);
@@ -143,6 +145,15 @@ export default function Navbar() {
               <Package size={20} />
               <span className="mt-0.5">Orders</span>
             </Link>
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="hidden flex-col items-center text-xs font-semibold text-royal hover:text-royal-dark lg:flex"
+              >
+                <LayoutDashboard size={20} />
+                <span className="mt-0.5">Admin</span>
+              </Link>
+            )}
             <Link
               href={loggedIn ? "/account" : "/login"}
               className="flex flex-col items-center text-xs text-navy hover:text-royal"
