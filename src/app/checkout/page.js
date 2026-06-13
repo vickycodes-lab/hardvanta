@@ -21,6 +21,7 @@ export default function CheckoutPage() {
     state: "",
     pincode: "",
   });
+  const [payMethod, setPayMethod] = useState("COD");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -38,26 +39,89 @@ export default function CheckoutPage() {
     setForm((f) => ({ ...f, [key]: value }));
   }
 
+  // Loads the Razorpay checkout widget script once, on demand.
+  function loadRazorpayScript() {
+    return new Promise((resolve) => {
+      if (typeof window !== "undefined" && window.Razorpay) return resolve(true);
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  }
+
+  async function handleCOD() {
+    const res = await fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ address: form }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Could not place order.");
+    router.push("/orders?placed=1");
+    router.refresh();
+  }
+
+  async function handleOnlinePayment() {
+    const ok = await loadRazorpayScript();
+    if (!ok) throw new Error("Could not load payment gateway. Check your connection.");
+
+    // 1. Create a Razorpay order on the server.
+    const res = await fetch("/api/payment/create-order", { method: "POST" });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Could not start payment.");
+
+    // 2. Open the Razorpay checkout widget.
+    await new Promise((resolve, reject) => {
+      const rzp = new window.Razorpay({
+        key: data.keyId,
+        amount: data.amount,
+        currency: data.currency,
+        name: "hardvanta",
+        description: "Order payment",
+        order_id: data.orderId,
+        prefill: { name: form.fullName, contact: form.phone },
+        theme: { color: "#2545d3" },
+        handler: async (response) => {
+          // 3. Verify the signature on the server, then create the DB order.
+          const verifyRes = await fetch("/api/payment/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...response, address: form }),
+          });
+          const verifyData = await verifyRes.json();
+          if (!verifyRes.ok) {
+            reject(new Error(verifyData.error || "Payment verification failed."));
+            return;
+          }
+          router.push("/orders?placed=1");
+          router.refresh();
+          resolve();
+        },
+        modal: {
+          ondismiss: () => reject(new Error("Payment cancelled.")),
+        },
+      });
+      rzp.on("payment.failed", (resp) =>
+        reject(new Error(resp.error?.description || "Payment failed."))
+      );
+      rzp.open();
+    });
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
     setLoading(true);
     try {
-      const res = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ address: form }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "Could not place order.");
-        setLoading(false);
-        return;
+      if (payMethod === "ONLINE") {
+        await handleOnlinePayment();
+      } else {
+        await handleCOD();
       }
-      router.push("/orders?placed=1");
-      router.refresh();
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      setError(err.message || "Something went wrong. Please try again.");
       setLoading(false);
     }
   }
@@ -110,11 +174,36 @@ export default function CheckoutPage() {
             <Field label="Pincode" value={form.pincode} onChange={(v) => update("pincode", v)} required />
           </div>
 
+          {/* Payment method */}
+          <div className="pt-2">
+            <h3 className="mb-2 text-sm font-semibold text-navy">Payment Method</h3>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <PayOption
+                active={payMethod === "ONLINE"}
+                onClick={() => setPayMethod("ONLINE")}
+                title="Pay Online"
+                desc="UPI, Cards, Netbanking"
+              />
+              <PayOption
+                active={payMethod === "COD"}
+                onClick={() => setPayMethod("COD")}
+                title="Cash on Delivery"
+                desc="Pay when it arrives"
+              />
+            </div>
+          </div>
+
           <Button type="submit" size="lg" className="w-full" disabled={loading}>
-            {loading ? "Placing order…" : `Place Order · ${formatPrice(grandTotal)}`}
+            {loading
+              ? "Processing…"
+              : payMethod === "ONLINE"
+                ? `Pay ${formatPrice(grandTotal)}`
+                : `Place Order · ${formatPrice(grandTotal)}`}
           </Button>
           <p className="text-center text-xs text-silver-dark">
-            Cash on Delivery. Online payments coming soon.
+            {payMethod === "ONLINE"
+              ? "Secured by Razorpay. Test mode — use a test card/UPI."
+              : "No payment now — pay in cash on delivery."}
           </p>
         </form>
 
@@ -154,6 +243,32 @@ export default function CheckoutPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function PayOption({ active, onClick, title, desc }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex items-start gap-3 rounded-lg border p-3 text-left transition-colors ${
+        active
+          ? "border-royal bg-royal/5 ring-1 ring-royal"
+          : "border-silver-dark hover:border-royal"
+      }`}
+    >
+      <span
+        className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
+          active ? "border-royal" : "border-silver-dark"
+        }`}
+      >
+        {active && <span className="h-2 w-2 rounded-full bg-royal" />}
+      </span>
+      <span>
+        <span className="block text-sm font-semibold text-navy">{title}</span>
+        <span className="block text-xs text-silver-dark">{desc}</span>
+      </span>
+    </button>
   );
 }
 
