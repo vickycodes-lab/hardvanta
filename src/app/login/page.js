@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import Button from "@/components/ui/Button";
-import { Eye, EyeOff } from "lucide-react"; //
 
 function LoginForm() {
   const router = useRouter();
@@ -18,7 +17,6 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // 
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -77,18 +75,13 @@ function LoginForm() {
             />
           </div>
 
-          {/* ✅ Password field with eye toggle */}
           <div>
             <label className="mb-1 block text-sm font-medium text-navy">
               Password
             </label>
             <div className="relative">
               <input
-<<<<<<< Updated upstream
                 type={showPassword ? "text" : "password"}
-=======
-                type={showPassword ? "text" : "password"} // ✅ Toggle type
->>>>>>> Stashed changes
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -96,22 +89,11 @@ function LoginForm() {
               />
               <button
                 type="button"
-<<<<<<< Updated upstream
                 onClick={() => setShowPassword((v) => !v)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-silver-dark hover:text-royal"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-=======
-                onClick={() => setShowPassword(!showPassword)} // ✅ Toggle karo
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-silver-dark hover:text-navy"
-              >
-                {showPassword ? (
-                  <EyeOff size={18} /> // 👁️ Password visible hai
-                ) : (
-                  <Eye size={18} />    // 🙈 Password hidden hai
-                )}
->>>>>>> Stashed changes
               </button>
             </div>
           </div>
