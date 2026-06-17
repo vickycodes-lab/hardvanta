@@ -47,6 +47,7 @@ export default function Navbar() {
   const isAdmin = session?.user?.role === "ADMIN";
   const [mobileOpen, setMobileOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
+  const [shopOpen, setShopOpen] = useState(false);
   const [bannerOpen, setBannerOpen] = useState(true);
   const [query, setQuery] = useState("");
 
@@ -236,16 +237,61 @@ export default function Navbar() {
 
           {/* Nav links */}
           <nav className="flex flex-1 items-center gap-1 overflow-x-auto px-2 no-scrollbar">
-            {navLinks.map((l) => (
-              <Link
-                key={l.label}
-                href={l.href}
-                className="flex items-center gap-1 whitespace-nowrap px-3 py-3 text-sm font-medium text-navy hover:text-royal"
-              >
-                {l.label}
-                {l.dropdown && <ChevronDown size={14} />}
-              </Link>
-            ))}
+            {navLinks.map((l) =>
+              l.label === "Shop" ? (
+                <div
+                  key={l.label}
+                  className="relative"
+                  onMouseEnter={() => setShopOpen(true)}
+                  onMouseLeave={() => setShopOpen(false)}
+                >
+                  <Link
+                    href={l.href}
+                    className="flex items-center gap-1 whitespace-nowrap px-3 py-3 text-sm font-medium text-navy hover:text-royal"
+                  >
+                    {l.label}
+                    <ChevronDown size={14} />
+                  </Link>
+
+                  {/* Shop mega-menu */}
+                  {shopOpen && (
+                    <div className="absolute left-0 top-full z-50 w-[640px] rounded-b-lg border border-silver-light bg-white p-5 shadow-card-hover">
+                      <div className="mb-3 flex items-center justify-between">
+                        <h3 className="text-sm font-bold uppercase tracking-wide text-navy">
+                          Shop by Category
+                        </h3>
+                        <Link
+                          href="/products"
+                          className="text-xs font-semibold text-royal hover:underline"
+                        >
+                          View all products
+                        </Link>
+                      </div>
+                      <div className="grid grid-cols-2 gap-x-6 gap-y-1">
+                        {categories.map((c) => (
+                          <Link
+                            key={c.slug}
+                            href={`/products?category=${c.slug}`}
+                            className="rounded-md px-2 py-2 text-sm text-navy hover:bg-cloud hover:text-royal"
+                          >
+                            {c.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={l.label}
+                  href={l.href}
+                  className="flex items-center gap-1 whitespace-nowrap px-3 py-3 text-sm font-medium text-navy hover:text-royal"
+                >
+                  {l.label}
+                  {l.dropdown && <ChevronDown size={14} />}
+                </Link>
+              )
+            )}
           </nav>
 
           {/* Sell on Hardvanta */}
