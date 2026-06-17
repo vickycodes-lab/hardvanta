@@ -243,7 +243,7 @@ export default function Navbar() {
           </div>
 
           {/* Nav links */}
-          <nav className="flex flex-1 items-center gap-1 overflow-x-auto px-2 no-scrollbar">
+          <nav className="flex flex-1 flex-wrap items-center gap-1 px-2">
             {navLinks.map((l) =>
               l.label === "Shop" ? (
                 <div
