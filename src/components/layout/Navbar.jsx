@@ -63,14 +63,12 @@ export default function Navbar() {
       {bannerOpen && (
         <div className="relative bg-gradient-to-r from-navy via-royal-dark to-navy text-white">
           <div className="container-page flex items-center justify-center gap-3 py-2 text-center text-xs sm:text-sm">
-            <span>
-              Arduino Physical AI Challenge 2026 Live Now | ₹30 Lakhs+ Prize Pool
-            </span>
+            
             <Link
               href="#"
               className="rounded-md bg-white px-3 py-1 text-xs font-bold text-navy hover:bg-silver-light"
             >
-              Register Now!
+              
             </Link>
           </div>
           <button
@@ -95,11 +93,17 @@ export default function Navbar() {
             <span className="text-silver-dark">Customer Support</span>
           </a>
           <div className="flex items-center gap-4 text-navy">
-            {[Facebook, Twitter, Linkedin, Instagram, Youtube].map((Icon, i) => (
-              <a key={i} href="#" className="hover:text-royal">
-                <Icon size={18} />
-              </a>
-            ))}
+            {[
+  { Icon: Facebook, href: "#" },
+  { Icon: Twitter, href: "#" },
+  { Icon: Linkedin, href: "https://www.linkedin.com/company/hardvanta-technologies-llp/posts/?feedView=all" },
+  { Icon: Instagram, href: "https://www.instagram.com/hardvantatechnology" },
+  { Icon: Youtube, href: "#" },
+].map(({ Icon, href }, i) => (
+  <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="hover:text-royal">
+    <Icon size={18} />
+  </a>
+))}
           </div>
         </div>
       </div>
