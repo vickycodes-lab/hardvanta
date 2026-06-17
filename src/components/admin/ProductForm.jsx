@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Upload } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { imageSrc } from "@/utils/imageSrc";
 
 const CATEGORIES = [
   "modules-displays", "diy-kits", "3d-printers", "batteries", "motors",
@@ -118,7 +119,7 @@ export default function ProductForm({ product }) {
         <div className="flex flex-wrap items-center gap-4">
           {form.image ? (
             <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-silver-light bg-cloud">
-              <Image src={form.image} alt="Preview" fill sizes="80px" className="object-cover" />
+              <Image src={imageSrc(form.image)} alt="Preview" fill sizes="80px" className="object-cover" />
             </div>
           ) : (
             <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg border border-dashed border-silver-dark text-xs text-silver-dark">

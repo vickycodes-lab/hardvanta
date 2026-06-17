@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Star, ChevronRight, Truck, ShieldCheck, RotateCcw } from "lucide-react";
 import { getProductById, getRelatedProducts } from "@/lib/queries";
 import { formatPrice } from "@/utils/formatPrice";
+import { imageSrc } from "@/utils/imageSrc";
 import ProductGrid from "@/components/products/ProductGrid";
 import AddToCart from "@/components/products/AddToCart";
 
@@ -42,7 +43,7 @@ export default async function ProductDetailPage({ params }) {
         {/* Image */}
         <div className="relative aspect-square overflow-hidden rounded-2xl border border-silver-light bg-white">
           <Image
-            src={product.image}
+            src={imageSrc(product.image)}
             alt={product.name}
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"

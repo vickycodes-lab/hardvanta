@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Trash2, Plus, Minus, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/utils/formatPrice";
+import { imageSrc } from "@/utils/imageSrc";
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, total, count } = useCart();
@@ -43,7 +44,7 @@ export default function CartPage() {
               >
                 <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-cloud">
                   <Image
-                    src={item.image}
+                    src={imageSrc(item.image)}
                     alt={item.name}
                     fill
                     sizes="96px"

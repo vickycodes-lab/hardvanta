@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star, ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/utils/formatPrice";
+import { imageSrc } from "@/utils/imageSrc";
 import { useCart } from "@/context/CartContext";
 
 export default function ProductCard({ product }) {
@@ -19,7 +20,7 @@ export default function ProductCard({ product }) {
       <Link href={`/products/${product.id}`} className="relative block">
         <div className="relative aspect-square overflow-hidden bg-cloud">
           <Image
-            src={product.image}
+            src={imageSrc(product.image)}
             alt={product.name}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { formatPrice } from "@/utils/formatPrice";
+import { imageSrc } from "@/utils/imageSrc";
 import { Plus } from "lucide-react";
 import DeleteProductButton from "@/components/admin/DeleteProductButton";
 
@@ -41,7 +42,7 @@ export default async function AdminProductsPage() {
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
                     <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded bg-cloud">
-                      <Image src={p.image} alt={p.name} fill sizes="40px" className="object-cover" />
+                      <Image src={imageSrc(p.image)} alt={p.name} fill sizes="40px" className="object-cover" />
                     </div>
                     <span className="line-clamp-1 font-medium text-navy">{p.name}</span>
                   </div>
