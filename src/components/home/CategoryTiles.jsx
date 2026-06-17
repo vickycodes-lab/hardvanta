@@ -35,7 +35,7 @@ const iconMap = {
 export default function CategoryTiles() {
   return (
     <section className="container-page py-12">
-      <h2 className="mb-6 text-2xl font-bold text-navy">Shop by Category</h2>
+      <h2 className="heading-accent mb-8">Shop by Category</h2>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
         {categories.map((c) => {
           const Icon = iconMap[c.icon] ?? Box;

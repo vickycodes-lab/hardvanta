@@ -26,7 +26,7 @@ export default async function GoogleReviews() {
     <section className="bg-white py-12">
       <div className="container-page">
         <div className="mb-6 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-2xl font-bold text-navy">What our customers say</h2>
+          <h2 className="heading-accent">What our customers say</h2>
           <div className="flex items-center gap-2">
             <span className="text-2xl font-bold text-navy">
               {rating.toFixed(1)}

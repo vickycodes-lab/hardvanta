@@ -6,14 +6,14 @@ export default function Button({
   ...props
 }) {
   const base =
-    "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-royal/40";
+    "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-royal/40";
   const variants = {
     primary:
-      "bg-royal text-white hover:bg-royal-dark shadow-sm hover:shadow-md",
+      "bg-royal text-white shadow-sm hover:bg-royal-dark hover:shadow-md",
     secondary:
-      "bg-navy text-white hover:bg-navy-light",
+      "bg-navy text-white hover:bg-navy-light shadow-sm hover:shadow-md",
     outline:
-      "border border-silver-dark text-navy bg-white hover:border-royal hover:text-royal",
+      "border border-silver-dark bg-white text-navy hover:border-royal hover:text-royal",
     ghost: "text-navy hover:bg-silver-light",
   };
   const sizes = {

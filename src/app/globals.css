@@ -7,25 +7,107 @@
   --foreground: #0a1f44;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  /* Consistent, accessible focus ring across the app */
+  :focus-visible {
+    outline: 2px solid #1e4fd8;
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: rgba(30, 79, 216, 0.18);
+    color: #0a1f44;
+  }
+}
+
+@layer components {
+  /* Standard max-width page wrapper */
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  /* Section vertical rhythm */
+  .section {
+    @apply py-12 md:py-16;
+  }
+  /* Reusable card surface */
+  .card {
+    @apply rounded-2xl border border-silver-light bg-white shadow-card transition-all duration-200;
+  }
+  .card-hover {
+    @apply hover:-translate-y-1 hover:shadow-card-hover;
+  }
+  /* Section heading with accent underline */
+  .heading-accent {
+    @apply relative inline-block text-2xl font-bold text-navy;
+  }
+  .heading-accent::after {
+    content: "";
+    @apply absolute -bottom-2 left-0 h-1 w-12 rounded-full bg-royal;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-  .container-page {
-    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  /* Hide scrollbar on horizontal scroll rows */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  /* Subtle entrance animation */
+  .animate-fade-up {
+    animation: fadeUp 0.5s ease-out both;
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out both;
   }
 }
 
-/* Thin scrollbar for horizontal scroll rows */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Refined, subtle global scrollbar (desktop) */
+@media (min-width: 768px) {
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: #c4cdd9;
+    border-radius: 9999px;
+    border: 2px solid #f4f7fb;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: #9aa6b5;
+  }
 }

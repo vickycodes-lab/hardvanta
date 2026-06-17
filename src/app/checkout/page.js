@@ -183,12 +183,12 @@ export default function CheckoutPage() {
 
   return (
     <div className="container-page py-8">
-      <h1 className="mb-6 text-2xl font-bold text-navy">Checkout</h1>
+      <h1 className="heading-accent mb-8">Checkout</h1>
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Address form */}
         <form
           onSubmit={handleSubmit}
-          className="space-y-4 rounded-xl border border-silver-light bg-white p-6 lg:col-span-2"
+          className="space-y-4 rounded-2xl border border-silver-light bg-white p-6 shadow-card lg:col-span-2"
         >
           <h2 className="text-lg font-bold text-navy">Shipping Address</h2>
           {error && (
@@ -272,7 +272,7 @@ export default function CheckoutPage() {
         </form>
 
         {/* Summary */}
-        <div className="h-fit rounded-xl border border-silver-light bg-white p-6">
+        <div className="sticky top-24 h-fit rounded-2xl border border-silver-light bg-white p-6 shadow-card">
           <h2 className="mb-4 text-lg font-bold text-navy">Order Summary</h2>
           <div className="space-y-3">
             {items.map((item) => (

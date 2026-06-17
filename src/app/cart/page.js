@@ -30,9 +30,7 @@ export default function CartPage() {
 
   return (
     <div className="container-page py-8">
-      <h1 className="mb-6 text-2xl font-bold text-navy">
-        Shopping Cart ({count})
-      </h1>
+      <h1 className="heading-accent mb-8">Shopping Cart ({count})</h1>
       <div className="grid gap-8 lg:grid-cols-3">
         <div className="space-y-4 lg:col-span-2">
           {items.map((item) => {
@@ -40,7 +38,7 @@ export default function CartPage() {
             return (
               <div
                 key={item.id}
-                className="flex gap-4 rounded-xl border border-silver-light bg-white p-4"
+                className="flex gap-4 rounded-2xl border border-silver-light bg-white p-4 shadow-card transition-shadow hover:shadow-card-hover"
               >
                 <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-cloud">
                   <Image
@@ -57,12 +55,13 @@ export default function CartPage() {
                   </h3>
                   <span className="text-xs text-silver-dark">{item.brand}</span>
                   <div className="mt-auto flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center rounded-lg border border-silver">
                       <button
                         onClick={() =>
                           updateQuantity(item.id, item.quantity - 1)
                         }
-                        className="rounded border border-silver p-1 hover:border-royal"
+                        className="px-2.5 py-1.5 text-navy hover:text-royal"
+                        aria-label="Decrease quantity"
                       >
                         <Minus size={14} />
                       </button>
@@ -73,7 +72,8 @@ export default function CartPage() {
                         onClick={() =>
                           updateQuantity(item.id, item.quantity + 1)
                         }
-                        className="rounded border border-silver p-1 hover:border-royal"
+                        className="px-2.5 py-1.5 text-navy hover:text-royal"
+                        aria-label="Increase quantity"
                       >
                         <Plus size={14} />
                       </button>
@@ -96,7 +96,7 @@ export default function CartPage() {
         </div>
 
         {/* Summary */}
-        <div className="h-fit rounded-xl border border-silver-light bg-white p-6">
+        <div className="sticky top-24 h-fit rounded-2xl border border-silver-light bg-white p-6 shadow-card">
           <h2 className="mb-4 text-lg font-bold text-navy">Order Summary</h2>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">

@@ -21,8 +21,8 @@ export default async function Home() {
       {/* Deals strip */}
       <section className="bg-white py-12">
         <div className="container-page">
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-navy">🔥 Hot Deals</h2>
+          <div className="mb-8 flex items-center justify-between">
+            <h2 className="heading-accent">🔥 Hot Deals</h2>
             <Link href="/products" className="text-sm font-semibold text-royal hover:underline">
               View all
             </Link>
@@ -33,8 +33,8 @@ export default async function Home() {
 
       {/* Featured products */}
       <section className="container-page py-12">
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-navy">Featured Products</h2>
+        <div className="mb-8 flex items-center justify-between">
+          <h2 className="heading-accent">Featured Products</h2>
           <Link href="/products" className="text-sm font-semibold text-royal hover:underline">
             Shop all
           </Link>

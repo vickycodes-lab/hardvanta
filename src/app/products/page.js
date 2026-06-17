@@ -28,19 +28,21 @@ export default async function ProductsPage({ searchParams }) {
 
   return (
     <div className="container-page py-8">
-      <h1 className="mb-2 text-2xl font-bold text-navy">{catName}</h1>
-      <p className="mb-6 text-sm text-silver-dark">
-        {list.length} product{list.length !== 1 ? "s" : ""}
-      </p>
+      <div className="mb-6">
+        <h1 className="heading-accent">{catName}</h1>
+        <p className="mt-3 text-sm text-silver-dark">
+          {list.length} product{list.length !== 1 ? "s" : ""} available
+        </p>
+      </div>
 
       {/* Category pills */}
       <div className="mb-8 flex flex-wrap gap-2">
         <Link
           href="/products"
-          className={`rounded-full px-4 py-1.5 text-sm font-medium ${
+          className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
             !activeCat
-              ? "bg-royal text-white"
-              : "border border-silver bg-white text-navy hover:border-royal"
+              ? "bg-royal text-white shadow-sm"
+              : "border border-silver bg-white text-navy hover:border-royal hover:text-royal"
           }`}
         >
           All
@@ -49,10 +51,10 @@ export default async function ProductsPage({ searchParams }) {
           <Link
             key={c.slug}
             href={`/products?category=${c.slug}`}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium ${
+            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
               activeCat === c.slug
-                ? "bg-royal text-white"
-                : "border border-silver bg-white text-navy hover:border-royal"
+                ? "bg-royal text-white shadow-sm"
+                : "border border-silver bg-white text-navy hover:border-royal hover:text-royal"
             }`}
           >
             {c.name}

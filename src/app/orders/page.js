@@ -32,7 +32,7 @@ export default async function OrdersPage({ searchParams }) {
 
   return (
     <div className="container-page py-8">
-      <h1 className="mb-6 text-2xl font-bold text-navy">My Orders</h1>
+      <h1 className="heading-accent mb-8">My Orders</h1>
 
       {justPlaced && (
         <div className="mb-6 flex items-center gap-2 rounded-lg bg-green-50 px-4 py-3 text-sm font-medium text-green-700">
@@ -57,7 +57,7 @@ export default async function OrdersPage({ searchParams }) {
           {orders.map((order) => (
             <div
               key={order.id}
-              className="rounded-xl border border-silver-light bg-white p-5"
+              className="rounded-2xl border border-silver-light bg-white p-5 shadow-card"
             >
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-silver-light pb-3">
                 <div>
