@@ -4,8 +4,8 @@ import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Eye, EyeOff } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { Eye, EyeOff } from "lucide-react";
 
 function LoginForm() {
   const router = useRouter();
@@ -14,20 +14,23 @@ function LoginForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
     setLoading(true);
+
     const res = await signIn("credentials", {
       email,
       password,
       redirect: false,
     });
+
     setLoading(false);
+
     if (res?.error) {
       setError("Invalid email or password.");
     } else {
@@ -52,7 +55,8 @@ function LoginForm() {
         </button>
 
         <div className="my-5 flex items-center gap-3 text-xs text-silver">
-          <span className="h-px flex-1 bg-silver-light" /> OR{" "}
+          <span className="h-px flex-1 bg-silver-light" />
+          OR
           <span className="h-px flex-1 bg-silver-light" />
         </div>
 
@@ -62,6 +66,7 @@ function LoginForm() {
               {error}
             </p>
           )}
+
           <div>
             <label className="mb-1 block text-sm font-medium text-navy">
               Email
@@ -79,6 +84,7 @@ function LoginForm() {
             <label className="mb-1 block text-sm font-medium text-navy">
               Password
             </label>
+
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -87,6 +93,7 @@ function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full rounded-lg border border-silver-dark px-3 py-2.5 pr-10 text-sm outline-none focus:border-royal focus:ring-2 focus:ring-royal/30"
               />
+
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
@@ -98,7 +105,12 @@ function LoginForm() {
             </div>
           </div>
 
-          <Button type="submit" size="lg" className="w-full" disabled={loading}>
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full"
+            disabled={loading}
+          >
             {loading ? "Signing in..." : "Sign in"}
           </Button>
         </form>

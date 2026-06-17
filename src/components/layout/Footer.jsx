@@ -14,36 +14,57 @@ const columns = [
   {
     title: "Information",
     links: [
-      "Track Your Order",
-      "Videos",
-      "FAQ",
-      "Careers",
-      "My Account",
-      "Cart",
-      "Checkout",
-      "Payment Options",
+      { label: "Track Your Order", href: "/orders" },
+      { label: "Videos", href: "#" },
+      { label: "FAQ", href: "#" },
+      { label: "Careers", href: "#" },
+      { label: "My Account", href: "/account" },
+      { label: "Cart", href: "/cart" },
+      { label: "Checkout", href: "/checkout" },
+      { label: "Payment Options", href: "#" },
     ],
   },
   {
     title: "Services",
-    links: ["About Us", "Contact Us", "B2B", "Bulk Orders", "Prototyping Services"],
+    links: [
+      { label: "About Us", href: "/about" },
+      { label: "Contact Us", href: "/contact" },
+      { label: "Hardvanta B2B", href: "/b2b" },
+      { label: "Bulk Orders", href: "/b2b#bulk" },
+      { label: "Prototyping Services", href: "/b2b#prototyping" },
+    ],
   },
   {
     title: "Policies",
     links: [
-      "Investor Relations",
-      "CSR",
-      "Privacy Policy",
-      "Terms of Service",
-      "Shipping & Refund",
-      "E-Waste Collection",
+      { label: "Investor Relations", href: "#" },
+      { label: "CSR", href: "#" },
+      { label: "Privacy Policy", href: "#" },
+      { label: "Terms of Service", href: "#" },
+      { label: "Shipping & Refund", href: "#" },
+      { label: "E-Waste Collection", href: "#" },
     ],
   },
+];
+
+const socials = [
+  { Icon: Facebook, href: "#" },
+  { Icon: Twitter, href: "#" },
+  {
+    Icon: Linkedin,
+    href: "https://www.linkedin.com/company/hardvanta-technologies-llp/posts/?feedView=all",
+  },
+  {
+    Icon: Instagram,
+    href: "https://www.instagram.com/hardvantatechnology",
+  },
+  { Icon: Youtube, href: "#" },
 ];
 
 export default function Footer() {
   return (
     <footer className="mt-16 bg-navy text-silver-light">
+
       {/* Newsletter strip */}
       <div className="border-b border-navy-light bg-navy-dark">
         <div className="container-page grid items-center gap-6 py-8 md:grid-cols-2">
@@ -78,6 +99,7 @@ export default function Footer() {
 
       {/* Main columns */}
       <div className="container-page grid grid-cols-2 gap-8 py-12 md:grid-cols-5">
+
         {/* Brand + contact */}
         <div className="col-span-2">
           <Logo size={44} />
@@ -96,13 +118,15 @@ export default function Footer() {
             <p className="text-xs text-silver">
               Call us 9:15 AM – 6:15 PM, Mon–Sat
             </p>
-            <div className="mt-2 flex items-center gap-2 text-white">
+            <a
+              href="tel:+919170546395"
+              className="mt-2 flex items-center gap-2 text-white hover:text-royal-light"
+            >
               <Phone size={16} className="text-royal-light" />
               <span className="font-semibold">+91 91705 46395</span>
-            </div>
+            </a>
           </div>
 
-          {/* App badges */}
           <div className="mt-5 flex gap-3">
             <span className="cursor-pointer rounded-lg border border-navy-light bg-navy-light px-3 py-2 text-xs text-white hover:border-royal">
               ▶ Google Play
@@ -113,15 +137,19 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Link Columns */}
         {columns.map((col) => (
           <div key={col.title}>
             <h4 className="mb-4 font-semibold text-white">{col.title}</h4>
             <ul className="space-y-2 text-sm">
-              {col.links.map((l) => (
-                <li key={l}>
-                  <a href="#" className="hover:text-royal-light">
-                    {l}
-                  </a>
+              {col.links.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="hover:text-royal-light transition-colors"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -134,11 +162,13 @@ export default function Footer() {
         <div className="container-page flex flex-col items-center justify-between gap-3 py-4 text-xs text-silver sm:flex-row">
           <p>© 2026 hardvanta — All Rights Reserved.</p>
           <div className="flex gap-3">
-            {[Facebook, Twitter, Linkedin, Instagram, Youtube].map((Icon, i) => (
+            {socials.map(({ Icon, href }, i) => (
               <a
                 key={i}
-                href="#"
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-navy-light hover:bg-royal"
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-navy-light hover:bg-royal transition-colors"
               >
                 <Icon size={16} className="text-white" />
               </a>
@@ -146,6 +176,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
     </footer>
   );
 }
