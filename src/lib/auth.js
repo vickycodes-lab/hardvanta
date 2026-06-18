@@ -21,15 +21,30 @@ export const authOptions = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        otp: { label: "OTP", type: "text" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email.toLowerCase() },
-        });
+        if (!credentials?.email || !credentials?.password || !credentials?.otp) {
+          return null;
+        }
+        const email = credentials.email.toLowerCase().trim();
+
+        const user = await prisma.user.findUnique({ where: { email } });
         if (!user || !user.password) return null;
+
         const valid = await bcrypt.compare(credentials.password, user.password);
         if (!valid) return null;
+
+        // Second factor: verify the latest, unexpired OTP for this email.
+        const otp = await prisma.loginOtp.findFirst({
+          where: { email, code: credentials.otp.trim() },
+          orderBy: { createdAt: "desc" },
+        });
+        if (!otp || otp.expires < new Date()) return null;
+
+        // One-time use: clear all codes for this email after a successful login.
+        await prisma.loginOtp.deleteMany({ where: { email } });
+
         return { id: user.id, name: user.name, email: user.email, role: user.role };
       },
     }),

@@ -6,6 +6,7 @@ import crypto from "crypto";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { sendOrderConfirmationEmail } from "@/lib/email";
 
 export async function POST(request) {
   const session = await getServerSession(authOptions);
@@ -70,6 +71,15 @@ export async function POST(request) {
     await tx.cartItem.deleteMany({ where: { userId } });
     return created;
   });
+
+  // Send confirmation email (best-effort — never block the order on email).
+  if (session.user?.email) {
+    try {
+      await sendOrderConfirmationEmail(session.user.email, order);
+    } catch (err) {
+      console.error("[payment] confirmation email failed:", err?.message || err);
+    }
+  }
 
   return NextResponse.json({ order }, { status: 201 });
 }

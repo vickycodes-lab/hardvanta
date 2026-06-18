@@ -75,6 +75,17 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// Short-lived 6-digit codes for two-factor login (step after password).
+model LoginOtp {
+  id        String   @id @default(cuid())
+  email     String
+  code      String
+  expires   DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
 model Category {
   slug String @id
   name String
