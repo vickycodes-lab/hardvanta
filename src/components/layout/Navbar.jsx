@@ -228,7 +228,7 @@ export default function Navbar() {
               <ChevronDown size={16} />
             </button>
             {catOpen && (
-              <div className="absolute left-0 top-full z-50 w-72 rounded-b-lg border border-silver-light bg-white py-2 shadow-card-hover">
+              <div className="absolute left-0 top-full z-50 max-h-[70vh] w-72 overflow-y-auto overscroll-contain rounded-b-lg border border-silver-light bg-white py-2 shadow-card-hover">
                 {categories.map((c) => (
                   <Link
                     key={c.slug}
