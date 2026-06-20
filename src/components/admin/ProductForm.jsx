@@ -1,17 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Upload } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { imageSrc } from "@/utils/imageSrc";
 
-const CATEGORIES = [
-  "modules-displays", "diy-kits", "3d-printers", "batteries", "motors",
-  "drones", "ev-parts", "components", "dev-boards", "iot-wireless",
-  "mechanical-tools", "sensors", "refurbished",
-];
+const NEW_CATEGORY = "__new__";
 
 export default function ProductForm({ product }) {
   const router = useRouter();
@@ -23,14 +19,35 @@ export default function ProductForm({ product }) {
     price: product?.price ?? "",
     salePrice: product?.salePrice ?? "",
     stock: product?.stock ?? 0,
-    category: product?.category || CATEGORIES[0],
+    category: product?.category || "",
     brand: product?.brand || "",
     image: product?.image || "",
     featured: product?.featured || false,
   });
+  const [categories, setCategories] = useState([]);
+  const [newCategory, setNewCategory] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+
+  // Load existing categories from the database.
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((r) => r.json())
+      .then((data) => {
+        const list = data.categories || [];
+        setCategories(list);
+        // Default the select to the first existing category when adding new.
+        setForm((f) =>
+          f.category || list.length === 0
+            ? f
+            : { ...f, category: list[0].slug }
+        );
+      })
+      .catch(() => {});
+  }, []);
+
+  const creatingCategory = form.category === NEW_CATEGORY;
 
   function set(key, value) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -59,21 +76,51 @@ export default function ProductForm({ product }) {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const url = isEdit ? `/api/products/${product.id}` : "/api/products";
-    const method = isEdit ? "PUT" : "POST";
-    const res = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      setError(data.error || "Could not save product.");
+
+    try {
+      let category = form.category;
+
+      // If the admin is creating a new category, save it first and use its slug.
+      if (creatingCategory) {
+        const name = newCategory.trim();
+        if (!name) {
+          setError("Please enter a name for the new category.");
+          setLoading(false);
+          return;
+        }
+        const catRes = await fetch("/api/categories", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        });
+        const catData = await catRes.json();
+        if (!catRes.ok) {
+          setError(catData.error || "Could not create category.");
+          setLoading(false);
+          return;
+        }
+        category = catData.category.slug;
+      }
+
+      const url = isEdit ? `/api/products/${product.id}` : "/api/products";
+      const method = isEdit ? "PUT" : "POST";
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, category }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Could not save product.");
+        setLoading(false);
+        return;
+      }
+      router.push("/admin/products");
+      router.refresh();
+    } catch {
+      setError("Something went wrong. Please try again.");
       setLoading(false);
-      return;
     }
-    router.push("/admin/products");
-    router.refresh();
   }
 
   return (
@@ -107,11 +154,27 @@ export default function ProductForm({ product }) {
           <input className={inputCls} value={form.brand} onChange={(e) => set("brand", e.target.value)} required />
         </L>
         <L label="Category">
-          <select className={inputCls} value={form.category} onChange={(e) => set("category", e.target.value)}>
-            {CATEGORIES.map((c) => (
-              <option key={c} value={c}>{c}</option>
+          <select
+            className={inputCls}
+            value={form.category}
+            onChange={(e) => set("category", e.target.value)}
+          >
+            {categories.map((c) => (
+              <option key={c.slug} value={c.slug}>
+                {c.name}
+              </option>
             ))}
+            <option value={NEW_CATEGORY}>+ Create new category…</option>
           </select>
+          {creatingCategory && (
+            <input
+              className={`${inputCls} mt-2`}
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
+              placeholder="New category name (e.g. Soldering Tools)"
+              autoFocus
+            />
+          )}
         </L>
       </div>
 
