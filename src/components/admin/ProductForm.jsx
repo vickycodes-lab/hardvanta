@@ -27,6 +27,7 @@ export default function ProductForm({ product }) {
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
   const [error, setError] = useState("");
+  const [uploadMsg, setUploadMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
 
@@ -57,24 +58,39 @@ export default function ProductForm({ product }) {
     const file = e.target.files?.[0];
     if (!file) return;
     setError("");
+    setUploadMsg("");
     setUploading(true);
     try {
       const fd = new FormData();
       fd.append("file", file);
       const res = await fetch("/api/upload", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Upload failed.");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        if (res.status === 403) {
+          throw new Error(
+            "You're not signed in as an admin. Log out and log back in with your admin account, then try again."
+          );
+        }
+        throw new Error(data.error || `Upload failed (HTTP ${res.status}).`);
+      }
+      if (!data.url) throw new Error("Upload returned no image URL.");
       set("image", data.url);
+      setUploadMsg("✓ Photo uploaded! You can create the product now.");
     } catch (err) {
       setError(err.message);
     } finally {
       setUploading(false);
+      e.target.value = ""; // let them re-pick the same file if needed
     }
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+    if (!form.image) {
+      setError("Please upload a photo (or paste an image URL) before saving.");
+      return;
+    }
     setLoading(true);
 
     try {
@@ -189,9 +205,9 @@ export default function ProductForm({ product }) {
               No image
             </div>
           )}
-          <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-silver-dark px-4 py-2 text-sm font-semibold text-navy hover:border-royal hover:text-royal">
+          <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-royal bg-royal px-4 py-2 text-sm font-semibold text-white hover:bg-royal-dark">
             <Upload size={16} />
-            {uploading ? "Uploading…" : "Upload photo"}
+            {uploading ? "Uploading…" : "Upload photo from device"}
             <input
               type="file"
               accept="image/*"
@@ -201,13 +217,21 @@ export default function ProductForm({ product }) {
             />
           </label>
         </div>
+        {uploadMsg && (
+          <p className="mt-2 rounded-lg bg-green-50 px-3 py-2 text-sm font-medium text-green-700">
+            {uploadMsg}
+          </p>
+        )}
         <input
           className={`${inputCls} mt-2`}
           value={form.image}
           onChange={(e) => set("image", e.target.value)}
-          placeholder="…or paste an image URL"
-          required
+          placeholder="Auto-fills after upload — or paste an image URL here"
         />
+        <p className="mt-1 text-xs text-silver-dark">
+          Tip: click “Upload photo from device” to use a photo from your computer/phone.
+          You do not need a URL.
+        </p>
       </L>
 
       <label className="flex items-center gap-2 text-sm text-navy">
