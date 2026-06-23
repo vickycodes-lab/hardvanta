@@ -1,36 +1,239 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# HardVanta
 
-## Getting Started
+A modern full-stack e-commerce platform built with Next.js, Prisma, Supabase, NextAuth, Razorpay, and Tailwind CSS.
 
-First, run the development server:
+## Overview
+
+HardVanta is a scalable online marketplace solution designed for modern businesses. The platform provides a complete shopping experience, including product management, secure authentication, payment processing, order tracking, and an administrative dashboard.
+
+Built with a production-ready architecture, HardVanta combines a fast frontend experience with a robust backend infrastructure.
+
+---
+
+## Key Features
+
+### Customer Features
+
+* Modern responsive storefront
+* Advanced product browsing and category navigation
+* Product detail pages with image galleries
+* Shopping cart and checkout flow
+* Secure user authentication
+* Email OTP verification
+* Order placement and tracking
+* PIN code validation during checkout
+* Razorpay payment integration
+* Order confirmation emails
+* Mobile-friendly user experience
+
+### Admin Features
+
+* Admin dashboard
+* Product CRUD operations
+* Category management
+* Create categories directly from product forms
+* Order status management
+* Product image upload support
+* Local image fallback storage
+* Inventory and catalog management
+
+### UI & UX Enhancements
+
+* Premium modern design system
+* Robu.in-inspired category navigation
+* Mega menu support
+* Responsive layouts
+* Enhanced product cards
+* Improved authentication pages
+* Dynamic category tiles
+* Error and loading boundaries
+
+---
+
+## Technology Stack
+
+### Frontend
+
+* Next.js 15
+* React
+* Tailwind CSS
+* JavaScript
+
+### Backend
+
+* Next.js API Routes
+* Prisma ORM
+* Supabase Database
+* NextAuth Authentication
+
+### Integrations
+
+* Razorpay Payments
+* Resend Email Service
+* Supabase Storage
+
+---
+
+## Project Structure
+
+```text
+hardvanta/
+├── prisma/              # Database schema and migrations
+├── public/              # Static assets and uploads
+├── src/
+│   ├── app/             # Next.js App Router pages
+│   ├── components/      # Reusable UI components
+│   ├── lib/             # Utility functions
+│   ├── services/        # Business logic
+│   └── api/             # API routes
+├── .env.example         # Environment variables template
+├── GUIDE.md             # Project workflow documentation
+└── README.md
+```
+
+---
+
+## Installation
+
+### Clone Repository
+
+```bash
+git clone https://github.com/vickycodes-lab/hardvanta.git
+cd hardvanta
+```
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Configure Environment Variables
+
+Create a `.env` file:
+
+```bash
+cp .env.example .env
+```
+
+Fill in the required credentials:
+
+* Supabase
+* NextAuth
+* Razorpay
+* Resend Email Service
+* Database URL
+
+### Database Setup
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+### Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
 
-## Learn More
+## Authentication
 
-To learn more about Next.js, take a look at the following resources:
+HardVanta supports:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Email OTP Login
+* Secure Session Management
+* User Registration
+* Protected Routes
+* Role-Based Admin Access
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Payments
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Integrated with Razorpay for secure online payments.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Supported Features:
+
+* Online checkout
+* Payment verification
+* Order confirmation workflow
+
+---
+
+## Email Services
+
+Powered by Resend:
+
+* OTP verification emails
+* Order confirmation emails
+* Transaction notifications
+
+---
+
+## Order Management
+
+* Order creation
+* Status updates
+* Tracking timeline
+* Customer order history
+
+---
+
+## Deployment
+
+### Recommended: Vercel
+
+```bash
+npm run build
+npm start
+```
+
+Deploy directly to Vercel for optimal Next.js performance.
+
+---
+
+## Contributing
+
+Contributions are welcome.
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to GitHub
+5. Open a Pull Request
+
+---
+
+## Roadmap
+
+* Wishlist functionality
+* Product reviews and ratings
+* Multi-vendor support
+* Coupon and discount engine
+* Analytics dashboard
+* Advanced inventory management
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+## Author
+
+**Vicky Mishra**
+
+GitHub: https://github.com/vickycodes-lab
+
+For feature requests, issues, or contributions, please open a GitHub Issue.
