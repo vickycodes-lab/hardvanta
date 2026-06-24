@@ -1,10 +1,11 @@
-import { prisma } from "@/lib/prisma";
+
 import { formatPrice } from "@/utils/formatPrice";
 import OrderStatusSelect from "@/components/admin/OrderStatusSelect";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminOrdersPage() {
+  const { prisma } = await import("@/lib/prisma");
   const orders = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
     include: { items: true, user: { select: { email: true, name: true } } },

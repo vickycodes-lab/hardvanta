@@ -1,7 +1,6 @@
 // GET  /api/categories  → list all categories
 // POST /api/categories  → create a category (admin only)
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/admin";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +14,7 @@ function slugify(str) {
 }
 
 export async function GET() {
+  const { prisma } = await import("@/lib/prisma");
   const categories = await prisma.category.findMany();
   return NextResponse.json({ categories });
 }
@@ -36,6 +36,7 @@ export async function POST(request) {
   }
 
   // Create it, or return the existing one if the slug already exists.
+  const { prisma } = await import("@/lib/prisma");
   const category = await prisma.category.upsert({
     where: { slug },
     update: {},

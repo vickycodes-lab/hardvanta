@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import { formatPrice } from "@/utils/formatPrice";
 import { Package, CheckCircle2 } from "lucide-react";
 import OrderTracker from "@/components/orders/OrderTracker";
@@ -19,9 +17,12 @@ const STATUS_STYLES = {
 };
 
 export default async function OrdersPage({ searchParams }) {
+  const { getAuthOptions } = await import("@/lib/auth");
+  const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/login?callbackUrl=/orders");
 
+  const { prisma } = await import("@/lib/prisma");
   const orders = await prisma.order.findMany({
     where: { userId: session.user.id },
     include: { items: true },

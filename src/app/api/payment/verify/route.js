@@ -4,11 +4,11 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import { sendOrderConfirmationEmail } from "@/lib/email";
 
 export async function POST(request) {
+  const { getAuthOptions } = await import("@/lib/auth");
+  const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id;
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -34,6 +34,7 @@ export async function POST(request) {
     );
   }
 
+  const { prisma } = await import("@/lib/prisma");
   const cartItems = await prisma.cartItem.findMany({
     where: { userId },
     include: { product: true },

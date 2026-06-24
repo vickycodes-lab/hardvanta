@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { prisma } from "@/lib/prisma";
+
 import { formatPrice } from "@/utils/formatPrice";
 import { imageSrc } from "@/utils/imageSrc";
 import { Plus } from "lucide-react";
@@ -9,6 +9,7 @@ import DeleteProductButton from "@/components/admin/DeleteProductButton";
 export const dynamic = "force-dynamic";
 
 export default async function AdminProductsPage() {
+  const { prisma } = await import("@/lib/prisma");
   const products = await prisma.product.findMany({
     orderBy: { createdAt: "desc" },
   });

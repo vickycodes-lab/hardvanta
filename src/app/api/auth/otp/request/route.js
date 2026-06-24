@@ -3,7 +3,7 @@
 // Always returns a generic success to avoid leaking which emails exist.
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/prisma";
+
 import { sendOtpEmail } from "@/lib/email";
 
 export async function POST(request) {
@@ -13,6 +13,7 @@ export async function POST(request) {
   }
 
   const normalized = email.toLowerCase().trim();
+  const { prisma } = await import("@/lib/prisma");
   const user = await prisma.user.findUnique({ where: { email: normalized } });
 
   // Verify credentials. On any failure, return a clear (but non-enumerating) error.

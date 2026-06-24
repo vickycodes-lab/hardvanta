@@ -3,15 +3,15 @@
 //   POST /api/orders → create order from server cart { address }
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import { sendOrderConfirmationEmail } from "@/lib/email";
 
 export async function GET() {
+  const { getAuthOptions } = await import("@/lib/auth");
+  const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id;
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
+  const { prisma } = await import("@/lib/prisma");
   const orders = await prisma.order.findMany({
     where: { userId },
     include: { items: true },
@@ -21,6 +21,8 @@ export async function GET() {
 }
 
 export async function POST(request) {
+  const { getAuthOptions } = await import("@/lib/auth");
+  const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id;
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -30,6 +32,7 @@ export async function POST(request) {
     return NextResponse.json({ error: "Shipping address required." }, { status: 400 });
   }
 
+  const { prisma } = await import("@/lib/prisma");
   const cartItems = await prisma.cartItem.findMany({
     where: { userId },
     include: { product: true },

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { getAuthOptions } from "@/lib/auth";
+
 import { Package, User as UserIcon } from "lucide-react";
 import SignOutButton from "@/components/auth/SignOutButton";
 
@@ -10,12 +10,12 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "My Account — hardvanta" };
 
 export default async function AccountPage() {
+  const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/login?callbackUrl=/account");
 
-  const orderCount = await prisma.order.count({
-    where: { userId: session.user.id },
-  });
+  const { prisma } = await import("@/lib/prisma");
+  const orderCount = await prisma.order.count({ where: { userId: session.user.id } });
 
   return (
     <div className="container-page py-8">

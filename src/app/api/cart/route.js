@@ -5,10 +5,10 @@
 //   DELETE /api/cart?productId= → remove one item (or all if omitted)
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 
 async function requireUser() {
+  const { getAuthOptions } = await import("@/lib/auth");
+  const authOptions = await getAuthOptions();
   const session = await getServerSession(authOptions);
   return session?.user?.id ?? null;
 }
@@ -30,6 +30,7 @@ function serialize(items) {
 export async function GET() {
   const userId = await requireUser();
   if (!userId) return NextResponse.json({ items: [] });
+  const { prisma } = await import("@/lib/prisma");
   const items = await prisma.cartItem.findMany({
     where: { userId },
     include: { product: true },
@@ -44,6 +45,7 @@ export async function POST(request) {
   if (!productId) {
     return NextResponse.json({ error: "productId required" }, { status: 400 });
   }
+  const { prisma } = await import("@/lib/prisma");
   await prisma.cartItem.upsert({
     where: { userId_productId: { userId, productId } },
     create: { userId, productId, quantity },
@@ -63,6 +65,7 @@ export async function PATCH(request) {
   if (!productId) {
     return NextResponse.json({ error: "productId required" }, { status: 400 });
   }
+  const { prisma } = await import("@/lib/prisma");
   if (quantity < 1) {
     await prisma.cartItem.deleteMany({ where: { userId, productId } });
   } else {
@@ -83,6 +86,7 @@ export async function DELETE(request) {
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { searchParams } = new URL(request.url);
   const productId = searchParams.get("productId");
+  const { prisma } = await import("@/lib/prisma");
   if (productId) {
     await prisma.cartItem.deleteMany({ where: { userId, productId } });
   } else {

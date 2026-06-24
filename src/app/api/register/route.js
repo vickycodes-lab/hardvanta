@@ -1,7 +1,7 @@
 // POST /api/register — create a new email/password user.
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/prisma";
+
 
 export async function POST(request) {
   try {
@@ -29,9 +29,8 @@ export async function POST(request) {
     }
 
     const normalizedEmail = email.toLowerCase();
-    const existing = await prisma.user.findUnique({
-      where: { email: normalizedEmail },
-    });
+    const { prisma } = await import("@/lib/prisma");
+    const existing = await prisma.user.findUnique({ where: { email: normalizedEmail } });
     if (existing) {
       return NextResponse.json(
         { error: "An account with this email already exists." },

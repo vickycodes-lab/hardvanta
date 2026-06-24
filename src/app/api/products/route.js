@@ -1,6 +1,5 @@
 // GET /api/products?category=<slug>&featured=true&q=<search>
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/admin";
 
 export const dynamic = "force-dynamic";
@@ -29,6 +28,7 @@ export async function GET(request) {
     ];
   }
 
+  const { prisma } = await import("@/lib/prisma");
   const products = await prisma.product.findMany({
     where,
     orderBy: { createdAt: "desc" },
@@ -49,6 +49,7 @@ export async function POST(request) {
 
   let slug = slugify(name);
   // Ensure slug is unique.
+  const { prisma } = await import("@/lib/prisma");
   while (await prisma.product.findUnique({ where: { slug } })) {
     slug = `${slug}-${Math.floor(Math.random() * 1000)}`;
   }

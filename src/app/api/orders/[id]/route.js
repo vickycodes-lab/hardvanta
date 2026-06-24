@@ -1,6 +1,5 @@
 // PATCH /api/orders/[id] — update order status (admin only).
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/admin";
 
 const VALID = ["PENDING", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED"];
@@ -13,6 +12,7 @@ export async function PATCH(request, { params }) {
   if (!VALID.includes(status)) {
     return NextResponse.json({ error: "Invalid status." }, { status: 400 });
   }
+  const { prisma } = await import("@/lib/prisma");
   const order = await prisma.order
     .update({ where: { id: params.id }, data: { status } })
     .catch(() => null);

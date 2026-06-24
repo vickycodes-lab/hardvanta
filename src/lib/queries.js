@@ -1,15 +1,21 @@
 // Server-side data access — used by Server Components to read directly from the DB.
 // (Client components should call the /api routes instead.)
-import { prisma } from "@/lib/prisma";
 
-export function getFeaturedProducts() {
+async function getPrisma() {
+  const mod = await import("@/lib/prisma");
+  return mod.prisma;
+}
+
+export async function getFeaturedProducts() {
+  const prisma = await getPrisma();
   return prisma.product.findMany({
     where: { featured: true },
     orderBy: { createdAt: "desc" },
   });
 }
 
-export function getDeals(limit = 4) {
+export async function getDeals(limit = 4) {
+  const prisma = await getPrisma();
   return prisma.product.findMany({
     where: { salePrice: { not: null } },
     take: limit,
@@ -17,11 +23,13 @@ export function getDeals(limit = 4) {
   });
 }
 
-export function getAllProducts() {
+export async function getAllProducts() {
+  const prisma = await getPrisma();
   return prisma.product.findMany({ orderBy: { createdAt: "desc" } });
 }
 
-export function searchProducts(q) {
+export async function searchProducts(q) {
+  const prisma = await getPrisma();
   return prisma.product.findMany({
     where: {
       OR: [
@@ -34,24 +42,28 @@ export function searchProducts(q) {
   });
 }
 
-export function getProductsByCategory(category) {
+export async function getProductsByCategory(category) {
+  const prisma = await getPrisma();
   return prisma.product.findMany({
     where: { category },
     orderBy: { createdAt: "desc" },
   });
 }
 
-export function getCategories() {
+export async function getCategories() {
+  const prisma = await getPrisma();
   return prisma.category.findMany();
 }
 
-export function getProductById(idOrSlug) {
+export async function getProductById(idOrSlug) {
+  const prisma = await getPrisma();
   return prisma.product.findFirst({
     where: { OR: [{ id: idOrSlug }, { slug: idOrSlug }] },
   });
 }
 
-export function getRelatedProducts(category, excludeId, limit = 4) {
+export async function getRelatedProducts(category, excludeId, limit = 4) {
+  const prisma = await getPrisma();
   return prisma.product.findMany({
     where: { category, NOT: { id: excludeId } },
     take: limit,

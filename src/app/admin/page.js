@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+
 import { formatPrice } from "@/utils/formatPrice";
 import { Package, ShoppingCart, Users, IndianRupee } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
+  const { prisma } = await import("@/lib/prisma");
   const [productCount, orderCount, userCount, orders] = await Promise.all([
     prisma.product.count(),
     prisma.order.count(),
