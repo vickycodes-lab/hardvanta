@@ -3,7 +3,12 @@
 import { PrismaClient } from "@prisma/client";
 import { categories, products } from "../src/lib/data.js";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  adapter: {
+    provider: "sqlite",
+    url: process.env.DATABASE_URL,
+  },
+});
 
 function slugify(str) {
   return str
