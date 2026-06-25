@@ -1,71 +1,508 @@
-import InfoPage, { Section } from "@/components/layout/InfoPage";
-import Link from "next/link";
+"use client";
 
-export const metadata = { title: "Careers — Hardvanta" };
+const whyUs = [
+  {
+    emoji: "🛠️",
+    title: "Makers First",
+    desc: "Everything we do is for people who build — students tinkering at midnight, hobbyists debugging circuits, and engineers shipping real products. We live in that world too.",
+  },
+  {
+    emoji: "🇮🇳",
+    title: "India-First Mission",
+    desc: "Quality components shouldn't be a privilege. We're making robotics and electronics accessible to every corner of India — from metro cities to tier-3 towns.",
+  },
+  {
+    emoji: "🔋",
+    title: "High Ownership",
+    desc: "Small team, massive impact. There's no bureaucracy between your idea and shipping it. You own your work end-to-end and see it live within days, not quarters.",
+  },
+  {
+    emoji: "📈",
+    title: "Real Growth",
+    desc: "We are growing fast and so will you. Take on challenges beyond your job title, learn from a passionate team, and grow alongside a brand that's defining maker culture in India.",
+  },
+  {
+    emoji: "🤝",
+    title: "Culture of Curiosity",
+    desc: "Credentials take a back seat to curiosity here. If you've built something — a bot, a circuit, a side project — that's your real resume. We love people who just can't stop making.",
+  },
+  {
+    emoji: "🌐",
+    title: "Meaningful Work",
+    desc: "Every order we ship helps someone bring an idea to life. That's not a tagline — it's why we show up. Join a team where the work genuinely matters.",
+  },
+];
 
 const values = [
-  {
-    icon: "🛠️",
-    label: "Makers first",
-    desc: "We work for people who build things — students, hobbyists, and engineers.",
-  },
-  {
-    icon: "📦",
-    label: "India-first mission",
-    desc: "Making quality components accessible across India — that's our core mission.",
-  },
-  {
-    icon: "🔋",
-    label: "High ownership",
-    desc: "Small team, big impact. Your work directly shapes what we build.",
-  },
+  { emoji: "⚡", label: "Move fast" },
+  { emoji: "🔍", label: "Stay curious" },
+  { emoji: "🧩", label: "Solve creatively" },
+  { emoji: "📦", label: "Ship often" },
+  { emoji: "🙌", label: "Help makers" },
+  { emoji: "🇮🇳", label: "Build for India" },
+];
+
+const perks = [
+  { emoji: "🏠", title: "Flexible Work", desc: "Hybrid-friendly setup. We care about output, not clocking in." },
+  { emoji: "🛒", title: "Component Allowance", desc: "Build personal projects with a monthly hardware budget on us." },
+  { emoji: "📚", title: "Learning Budget", desc: "Courses, books, workshops — we invest in your growth." },
+  { emoji: "🎉", title: "Maker Events", desc: "Attend hackathons, expos, and maker faires — on company time." },
 ];
 
 export default function CareersPage() {
   return (
-    <InfoPage
-      title="Build the future of making in India"
-      intro="India's go-to store for robotics, electronics, and DIY engineering. If you want to help people bring their ideas to life — you belong here."
-    >
-      <Section heading="Why work with us">
-        <p>
-          We are a growing team passionate about makers and builders. Curiosity
-          matters more than credentials here — if you have built something, that
-          is your real resume.
-        </p>
+    <>
+      <style>{`
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Inter, system-ui, -apple-system, sans-serif; }
 
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {values.map((v) => (
-            <div
-              key={v.label}
-              className="rounded-xl border border-border bg-muted/40 p-4"
-            >
-              <span className="mb-2 block text-2xl">{v.icon}</span>
-              <p className="mb-1 font-semibold text-sm">{v.label}</p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {v.desc}
+        .car-hero { padding: 44px 20px 56px; }
+        @media (min-width: 640px)  { .car-hero { padding: 56px 32px 68px; } }
+        @media (min-width: 1024px) { .car-hero { padding: 72px 48px 80px; } }
+
+        .car-body { max-width: 860px; margin: 0 auto; padding: 28px 16px 72px; }
+        @media (min-width: 640px)  { .car-body { padding: 36px 24px 80px; } }
+        @media (min-width: 1024px) { .car-body { padding: 48px 32px 96px; } }
+
+        .why-grid {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 12px;
+          margin-top: 6px;
+        }
+        @media (min-width: 560px) { .why-grid { grid-template-columns: 1fr 1fr; } }
+        @media (min-width: 860px) { .why-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+        .perks-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+          margin-top: 6px;
+        }
+        @media (min-width: 700px) { .perks-grid { grid-template-columns: 1fr 1fr 1fr 1fr; } }
+
+        .values-grid {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 14px;
+        }
+
+        .hero-stats {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 28px;
+        }
+
+        a:focus-visible, button:focus-visible {
+          outline: 2px solid #3b5bdb;
+          outline-offset: 3px;
+          border-radius: 6px;
+        }
+
+        .nav-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px 20px;
+        }
+        @media (min-width: 700px) { .nav-grid { grid-template-columns: 1fr 1fr 1fr 1fr; } }
+
+        @media (prefers-reduced-motion: reduce) {
+          * { transition: none !important; }
+        }
+      `}</style>
+
+      <div style={{ background: "#f3f4f6", minHeight: "100vh" }}>
+
+        {/* ══════ HERO ══════ */}
+        <div
+          className="car-hero"
+          style={{
+            background: "linear-gradient(135deg,#1e2a6e 0%,#2d3a8c 55%,#1a237e 100%)",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          {/* dot-grid texture */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute", inset: 0,
+              backgroundImage: "radial-gradient(circle,rgba(255,255,255,0.055) 1px,transparent 1px)",
+              backgroundSize: "28px 28px",
+              pointerEvents: "none",
+            }}
+          />
+
+          <div style={{ maxWidth: "860px", margin: "0 auto", position: "relative" }}>
+
+            {/* pill badge */}
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: "6px",
+              background: "rgba(255,255,255,0.13)",
+              border: "1px solid rgba(255,255,255,0.22)",
+              borderRadius: "999px", padding: "5px 15px", marginBottom: "18px",
+              fontSize: "11px", fontWeight: 700,
+              color: "rgba(255,255,255,0.88)",
+              letterSpacing: "0.09em", textTransform: "uppercase",
+            }}>
+              🚀 CAREERS AT HARDVANTA
+            </div>
+
+            <h1 style={{
+              fontSize: "clamp(1.75rem,6vw,2.9rem)",
+              fontWeight: 800, color: "#ffffff",
+              lineHeight: 1.1, letterSpacing: "-0.01em", marginBottom: "16px",
+            }}>
+              Build the Future of<br />Making in India
+            </h1>
+
+            <p style={{
+              fontSize: "clamp(13.5px,3.2vw,15.5px)",
+              color: "rgba(255,255,255,0.78)",
+              lineHeight: 1.75, maxWidth: "520px", marginBottom: "6px",
+            }}>
+              India's go-to store for robotics, electronics, and DIY engineering.
+              If you want to help people bring their ideas to life — you belong here. 🤝
+            </p>
+
+            {/* stat badges */}
+            <div className="hero-stats">
+              {[
+                { emoji: "🏭", label: "10,000+ Products" },
+                { emoji: "📦", label: "Pan-India Delivery" },
+                { emoji: "👥", label: "Growing Team" },
+                { emoji: "🔩", label: "Makers Community" },
+              ].map((s) => (
+                <div key={s.label} style={{
+                  background: "rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.18)",
+                  borderRadius: "8px", padding: "6px 14px",
+                  fontSize: "clamp(11px,2.5vw,12.5px)", fontWeight: 600,
+                  color: "rgba(255,255,255,0.85)",
+                }}>
+                  {s.emoji} {s.label}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ══════ BODY ══════ */}
+        <div className="car-body">
+
+          {/* "On this page" nav */}
+          <div style={{
+            background: "#ffffff", border: "1px solid #e5e7eb",
+            borderRadius: "14px", padding: "22px 24px", marginBottom: "24px",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
+          }}>
+            <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#9ca3af", marginBottom: "14px" }}>
+              ON THIS PAGE
+            </p>
+            <nav className="nav-grid" aria-label="Page sections">
+              {[
+                { href: "#why-us", label: "🛠️ Why work with us" },
+                { href: "#values",  label: "⚡ Our values" },
+                { href: "#perks",   label: "🎁 Perks & benefits" },
+                { href: "#roles",   label: "📭 Open positions" },
+              ].map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.querySelector(link.href)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  style={{
+                    fontSize: "clamp(12px,3vw,13px)", color: "#3b5bdb",
+                    textDecoration: "none",
+                    display: "flex", alignItems: "flex-start", gap: "5px", lineHeight: 1.45,
+                  }}
+                >
+                  <span style={{ color: "#9ca3af", fontSize: "11px", marginTop: "2px", flexShrink: 0 }}>›</span>
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          {/* ── SECTION 01 · Why work with us ── */}
+          <div
+            id="why-us"
+            style={{
+              background: "#ffffff", border: "1px solid #e5e7eb",
+              borderRadius: "14px", padding: "clamp(20px,4vw,32px)",
+              marginBottom: "18px", boxShadow: "0 1px 6px rgba(0,0,0,0.05)",
+              scrollMarginTop: "24px",
+            }}
+          >
+            <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#9ca3af", marginBottom: "6px" }}>
+              SECTION 01
+            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
+              <div style={{
+                flexShrink: 0, width: "42px", height: "42px", borderRadius: "10px",
+                background: "linear-gradient(135deg,#eff3ff 0%,#e0e7ff 100%)",
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px",
+              }}>🛠️</div>
+              <h2 style={{ fontSize: "clamp(16px,4vw,20px)", fontWeight: 800, color: "#111827" }}>
+                Why Work With Us
+              </h2>
+            </div>
+
+            <p style={{ fontSize: "clamp(13.5px,3vw,15px)", color: "#374151", lineHeight: 1.8, marginBottom: "20px" }}>
+              We are a growing team passionate about makers and builders. Curiosity matters more than
+              credentials here — if you have built something, that is your real resume. ✨
+            </p>
+
+            <div className="why-grid">
+              {whyUs.map((item) => (
+                <div
+                  key={item.title}
+                  style={{
+                    background: "#f9fafb", border: "1px solid #f3f4f6",
+                    borderRadius: "12px", padding: "18px",
+                  }}
+                >
+                  <div style={{
+                    width: "40px", height: "40px", borderRadius: "10px",
+                    background: "linear-gradient(135deg,#eff3ff,#e0e7ff)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "20px", marginBottom: "12px",
+                  }}>
+                    {item.emoji}
+                  </div>
+                  <p style={{ fontWeight: 700, fontSize: "clamp(13.5px,3vw,15px)", color: "#111827", marginBottom: "6px" }}>
+                    {item.title}
+                  </p>
+                  <p style={{ fontSize: "clamp(12.5px,2.8vw,13.5px)", color: "#6b7280", lineHeight: 1.65 }}>
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── SECTION 02 · Values ── */}
+          <div
+            id="values"
+            style={{
+              background: "#ffffff", border: "1px solid #e5e7eb",
+              borderRadius: "14px", padding: "clamp(20px,4vw,32px)",
+              marginBottom: "18px", boxShadow: "0 1px 6px rgba(0,0,0,0.05)",
+              scrollMarginTop: "24px",
+            }}
+          >
+            <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#9ca3af", marginBottom: "6px" }}>
+              SECTION 02
+            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
+              <div style={{
+                flexShrink: 0, width: "42px", height: "42px", borderRadius: "10px",
+                background: "linear-gradient(135deg,#eff3ff 0%,#e0e7ff 100%)",
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px",
+              }}>⚡</div>
+              <h2 style={{ fontSize: "clamp(16px,4vw,20px)", fontWeight: 800, color: "#111827" }}>
+                What We Stand For
+              </h2>
+            </div>
+
+            <p style={{ fontSize: "clamp(13.5px,3vw,15px)", color: "#374151", lineHeight: 1.8, marginBottom: "4px" }}>
+              These aren't posters on a wall — they're how we actually work every day.
+            </p>
+
+            <div className="values-grid">
+              {values.map((v) => (
+                <div
+                  key={v.label}
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: "8px",
+                    background: "#eff6ff",
+                    border: "1px solid #dbeafe",
+                    borderRadius: "999px", padding: "8px 16px",
+                    fontSize: "clamp(12.5px,2.8vw,14px)", fontWeight: 600, color: "#1e3a8a",
+                  }}
+                >
+                  <span>{v.emoji}</span> {v.label}
+                </div>
+              ))}
+            </div>
+
+            {/* Highlight */}
+            <div style={{
+              background: "#eff6ff", borderLeft: "3px solid #3b5bdb",
+              borderRadius: "6px", padding: "12px 16px", marginTop: "20px",
+              fontSize: "clamp(12.5px,2.8vw,13.5px)", color: "#1e3a8a", lineHeight: 1.65,
+            }}>
+              <strong>💡 Our belief: </strong>
+              The best engineers aren't always the ones with the fanciest degrees — they're the ones who can't stop building. If that's you, we'd love to talk.
+            </div>
+          </div>
+
+          {/* ── SECTION 03 · Perks ── */}
+          <div
+            id="perks"
+            style={{
+              background: "#ffffff", border: "1px solid #e5e7eb",
+              borderRadius: "14px", padding: "clamp(20px,4vw,32px)",
+              marginBottom: "18px", boxShadow: "0 1px 6px rgba(0,0,0,0.05)",
+              scrollMarginTop: "24px",
+            }}
+          >
+            <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#9ca3af", marginBottom: "6px" }}>
+              SECTION 03
+            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
+              <div style={{
+                flexShrink: 0, width: "42px", height: "42px", borderRadius: "10px",
+                background: "linear-gradient(135deg,#eff3ff 0%,#e0e7ff 100%)",
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px",
+              }}>🎁</div>
+              <h2 style={{ fontSize: "clamp(16px,4vw,20px)", fontWeight: 800, color: "#111827" }}>
+                Perks & Benefits
+              </h2>
+            </div>
+
+            <p style={{ fontSize: "clamp(13.5px,3vw,15px)", color: "#374151", lineHeight: 1.8, marginBottom: "18px" }}>
+              We take care of the people who take care of our makers. 💚
+            </p>
+
+            <div className="perks-grid">
+              {perks.map((p) => (
+                <div
+                  key={p.title}
+                  style={{
+                    background: "#f9fafb", border: "1px solid #f3f4f6",
+                    borderRadius: "12px", padding: "18px",
+                    display: "flex", flexDirection: "column", gap: "8px",
+                  }}
+                >
+                  <span style={{ fontSize: "26px" }}>{p.emoji}</span>
+                  <p style={{ fontWeight: 700, fontSize: "clamp(13px,3vw,14.5px)", color: "#111827" }}>
+                    {p.title}
+                  </p>
+                  <p style={{ fontSize: "clamp(12px,2.8vw,13px)", color: "#6b7280", lineHeight: 1.6 }}>
+                    {p.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── SECTION 04 · Open Roles ── */}
+          <div
+            id="roles"
+            style={{
+              background: "#ffffff", border: "1px solid #e5e7eb",
+              borderRadius: "14px", padding: "clamp(20px,4vw,32px)",
+              marginBottom: "18px", boxShadow: "0 1px 6px rgba(0,0,0,0.05)",
+              scrollMarginTop: "24px",
+            }}
+          >
+            <p style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#9ca3af", marginBottom: "6px" }}>
+              SECTION 04
+            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "14px" }}>
+              <div style={{
+                flexShrink: 0, width: "42px", height: "42px", borderRadius: "10px",
+                background: "linear-gradient(135deg,#eff3ff 0%,#e0e7ff 100%)",
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px",
+              }}>📋</div>
+              <h2 style={{ fontSize: "clamp(16px,4vw,20px)", fontWeight: 800, color: "#111827" }}>
+                Open Positions
+              </h2>
+            </div>
+
+            {/* Empty state */}
+            <div style={{
+              background: "#f9fafb", border: "1.5px dashed #d1d5db",
+              borderRadius: "12px", padding: "36px 24px", textAlign: "center",
+            }}>
+              <div style={{ fontSize: "40px", marginBottom: "12px" }}>📭</div>
+              <p style={{ fontWeight: 700, fontSize: "clamp(15px,3.5vw,17px)", color: "#111827", marginBottom: "8px" }}>
+                No open roles right now
+              </p>
+              <p style={{ fontSize: "clamp(13px,3vw,14px)", color: "#6b7280", lineHeight: 1.7, maxWidth: "400px", margin: "0 auto 0" }}>
+                We're not actively hiring at the moment — but great people don't wait for job postings. 
+                Send us your resume and tell us what you'd love to build with us.
               </p>
             </div>
-          ))}
-        </div>
-      </Section>
 
-      <Section heading="Open positions">
-        <div className="rounded-xl border border-dashed border-border px-6 py-10 text-center">
-          <p className="text-3xl mb-3">📭</p>
-          <p className="font-semibold text-base mb-1">No open roles right now</p>
-          <p className="text-sm text-muted-foreground max-w-sm mx-auto mb-5">
-            We are not actively hiring at the moment — but you can send us your
-            resume for future openings.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-          >
-            Send your resume &rarr;
-          </Link>
+            <div style={{
+              background: "#eff6ff", borderLeft: "3px solid #3b5bdb",
+              borderRadius: "6px", padding: "12px 16px", marginTop: "18px",
+              fontSize: "clamp(12.5px,2.8vw,13.5px)", color: "#1e3a8a", lineHeight: 1.65,
+            }}>
+              <strong>💡 Heads up: </strong>
+              We review every application carefully. If your skills and passion are a match, we'll reach out — even if there's no active role.
+            </div>
+          </div>
+
+          {/* ── CTA card ── */}
+          <div style={{
+            background: "linear-gradient(135deg,#1e2a6e 0%,#2d3a8c 100%)",
+            borderRadius: "14px", textAlign: "center",
+            padding: "clamp(32px,5vw,52px) clamp(20px,5vw,40px)",
+            marginTop: "8px", position: "relative", overflow: "hidden",
+          }}>
+            {/* subtle dot texture */}
+            <div aria-hidden="true" style={{
+              position: "absolute", inset: 0,
+              backgroundImage: "radial-gradient(circle,rgba(255,255,255,0.045) 1px,transparent 1px)",
+              backgroundSize: "24px 24px", pointerEvents: "none",
+            }} />
+
+            <div style={{ position: "relative" }}>
+              <div style={{ fontSize: "36px", marginBottom: "12px" }}>✉️</div>
+              <h3 style={{
+                fontSize: "clamp(17px,4vw,22px)", fontWeight: 800,
+                color: "#ffffff", marginBottom: "10px",
+              }}>
+                Don't see your role? Send your resume anyway.
+              </h3>
+              <p style={{
+                fontSize: "clamp(13px,3vw,14.5px)", color: "rgba(255,255,255,0.72)",
+                marginBottom: "28px", lineHeight: 1.7, maxWidth: "460px", margin: "0 auto 24px",
+              }}>
+                We love meeting passionate builders even when we're not actively hiring.
+                Share what you've made and what you'd love to work on — that's how most of our best hires found us. 🚀
+              </p>
+
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px" }}>
+                <a
+                  href="/contact"
+                  style={{
+                    display: "inline-block", background: "#ffffff",
+                    color: "#1e2a6e", fontWeight: 700,
+                    fontSize: "clamp(13px,3vw,14.5px)",
+                    padding: "13px 32px", borderRadius: "8px",
+                    textDecoration: "none", letterSpacing: "0.01em",
+                  }}
+                >
+                  📩 Send Your Resume
+                </a>
+                <a
+                  href="mailto:careers@hardvanta.com"
+                  style={{
+                    display: "inline-block",
+                    background: "rgba(255,255,255,0.12)",
+                    border: "1px solid rgba(255,255,255,0.25)",
+                    color: "#ffffff", fontWeight: 600,
+                    fontSize: "clamp(13px,3vw,14.5px)",
+                    padding: "13px 32px", borderRadius: "8px",
+                    textDecoration: "none", letterSpacing: "0.01em",
+                  }}
+                >
+                  📧 careers@hardvanta.com
+                </a>
+              </div>
+            </div>
+          </div>
+
         </div>
-      </Section>
-    </InfoPage>
+      </div>
+    </>
   );
 }
