@@ -37,7 +37,7 @@ const navLinks = [
   { label: "ATL Kits Enquiry", href: "/atl-kits-enquiry" },
   { label: "Blogs", href: "#", dropdown: true },
   { label: "BOM Tool", href: "#" },
-  { label: "Careers", href: "#" },
+  
 ];
 
 const shopMenu = [
