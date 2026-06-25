@@ -321,7 +321,7 @@ export default function CSRPage() {
             <li style={s.listItem}>
               <span style={s.listDot} aria-hidden="true" />
               Visit our{" "}
-              <a href="/e-waste" style={s.inlineLink}>E-Waste Collection page</a>
+              <a href="\ewaste" style={s.inlineLink}>E-Waste Collection page</a>
               {" "}for drop-off locations and guidelines
             </li>
           </ul>
