@@ -22,6 +22,7 @@ import {
   Linkedin,
   Instagram,
   Youtube,
+  AlignJustify,
 } from "lucide-react";
 import { categories } from "@/lib/data";
 import { useCart } from "@/context/CartContext";
@@ -46,16 +47,25 @@ const shopMenu = [
   { label: "Payment Options", href: "/checkout" },
 ];
 
+const socials = [
+  { Icon: Facebook, href: "#" },
+  { Icon: Twitter, href: "#" },
+  { Icon: Linkedin, href: "https://www.linkedin.com/company/hardvanta-technologies-llp/posts/?feedView=all" },
+  { Icon: Instagram, href: "https://www.instagram.com/hardvantatechnology" },
+  { Icon: Youtube, href: "#" },
+];
+
 export default function Navbar() {
   const { count } = useCart();
   const router = useRouter();
   const { data: session, status } = useSession();
   const loggedIn = status === "authenticated";
   const isAdmin = session?.user?.role === "ADMIN";
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [catOpen, setCatOpen] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
-  const [bannerOpen, setBannerOpen] = useState(true);
+  const [mobileCatOpen, setMobileCatOpen] = useState(false);
   const [query, setQuery] = useState("");
 
   function handleSearch(e) {
@@ -66,174 +76,155 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white">
-      {/* Promo announcement bar */}
-      {bannerOpen && (
-        <div className="relative bg-gradient-to-r from-navy via-royal-dark to-navy text-white">
-          <div className="container-page flex items-center justify-center gap-3 py-2 text-center text-xs sm:text-sm">
-            
-            <Link
-              href="#"
-              className="rounded-md bg-white px-3 py-1 text-xs font-bold text-navy hover:bg-silver-light"
-            >
-              
-            </Link>
-          </div>
-          <button
-            onClick={() => setBannerOpen(false)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-white/80 hover:text-white"
-            aria-label="Dismiss"
-          >
-            <X size={16} />
-          </button>
-        </div>
-      )}
+    <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
 
-      {/* Utility bar: phone + socials */}
-      <div className="hidden border-b border-silver-light md:block">
+      {/* ── Utility bar: phone + socials ── */}
+      <div className="border-b border-silver-light bg-white">
         <div className="container-page flex items-center justify-between py-2 text-sm">
           <a
             href="tel:+919170546395"
             className="flex items-center gap-2 text-navy"
           >
-            <Phone size={16} className="text-royal" />
-            <span className="font-semibold">+91 91705 46395</span>
-            <span className="text-silver-dark">Customer Support</span>
+            <Phone size={15} className="text-royal" />
+            <span className="font-semibold text-navy">+91 91705 46395</span>
+            <span className="text-silver-dark hidden sm:inline">Customer Support</span>
           </a>
-          <div className="flex items-center gap-4 text-navy">
-            {[
-  { Icon: Facebook, href: "#" },
-  { Icon: Twitter, href: "#" },
-  { Icon: Linkedin, href: "https://www.linkedin.com/company/hardvanta-technologies-llp/posts/?feedView=all" },
-  { Icon: Instagram, href: "https://www.instagram.com/hardvantatechnology" },
-  { Icon: Youtube, href: "#" },
-].map(({ Icon, href }, i) => (
-  <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="hover:text-royal">
-    <Icon size={18} />
-  </a>
-))}
+          <div className="flex items-center gap-4 text-silver-dark">
+            {socials.map(({ Icon, href }, i) => (
+              <a
+                key={i}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-royal transition-colors"
+              >
+                <Icon size={17} />
+              </a>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Main bar: logo + search + actions */}
-      <div className="border-b border-silver-light">
+      {/* ── Main bar: logo + search + action icons ── */}
+      <div className="border-b border-silver-light bg-white">
         <div className="container-page flex items-center gap-4 py-3">
-          <Logo size={52} />
 
-          {/* Search */}
-          <form onSubmit={handleSearch} className="hidden flex-1 md:block">
-            <div className="flex items-center overflow-hidden rounded-lg border border-silver">
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search for Products..."
-                className="w-full px-4 py-2.5 text-sm text-navy outline-none"
-              />
-              <button
-                type="submit"
-                className="flex items-center gap-2 bg-royal px-6 py-2.5 text-sm font-semibold text-white hover:bg-royal-dark"
-              >
-                <Search size={18} />
-                <span className="hidden lg:inline">Search</span>
-              </button>
-            </div>
+          {/* Logo */}
+          <Logo size={48} />
+
+          {/* Search — desktop */}
+          <form
+            onSubmit={handleSearch}
+            className="hidden flex-1 md:flex items-center overflow-hidden rounded-full border border-silver bg-white shadow-sm"
+          >
+            <span className="pl-4 text-silver-dark">
+              <Search size={17} />
+            </span>
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search for Products..."
+              className="w-full px-3 py-2.5 text-sm text-navy outline-none bg-transparent"
+            />
+            <button
+              type="submit"
+              className="m-1 rounded-full bg-royal px-5 py-2 text-sm font-semibold text-white hover:bg-royal-dark transition-colors"
+            >
+              Search
+            </button>
           </form>
 
-          {/* Actions */}
-          <div className="flex items-center gap-3 sm:gap-5">
-            <Link
-              href="#"
-              className="hidden flex-col items-center text-xs text-navy hover:text-royal lg:flex"
-            >
+          {/* Desktop action icons */}
+          <div className="hidden md:flex items-center gap-5 text-navy">
+            <Link href="#" className="flex flex-col items-center text-xs hover:text-royal transition-colors">
               <Repeat size={20} />
               <span className="mt-0.5">Compare</span>
             </Link>
-            <Link
-              href="/orders"
-              className="hidden flex-col items-center text-xs text-navy hover:text-royal lg:flex"
-            >
+            <Link href="/orders" className="flex flex-col items-center text-xs hover:text-royal transition-colors">
               <Package size={20} />
               <span className="mt-0.5">Orders</span>
             </Link>
             {isAdmin && (
-              <Link
-                href="/admin"
-                className="hidden flex-col items-center text-xs font-semibold text-royal hover:text-royal-dark lg:flex"
-              >
+              <Link href="/admin" className="flex flex-col items-center text-xs font-semibold text-royal hover:text-royal-dark transition-colors">
                 <LayoutDashboard size={20} />
                 <span className="mt-0.5">Admin</span>
               </Link>
             )}
-            <Link
-              href={loggedIn ? "/account" : "/login"}
-              className="flex flex-col items-center text-xs text-navy hover:text-royal"
-            >
+            <Link href={loggedIn ? "/account" : "/login"} className="flex flex-col items-center text-xs hover:text-royal transition-colors">
               <User size={20} />
-              <span className="mt-0.5 hidden sm:block">
-                {loggedIn ? "Account" : "Login"}
-              </span>
+              <span className="mt-0.5">{loggedIn ? "Account" : "Login"}</span>
             </Link>
             {loggedIn && (
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="hidden flex-col items-center text-xs text-navy hover:text-royal lg:flex"
+                className="flex flex-col items-center text-xs hover:text-royal transition-colors"
               >
                 <LogOut size={20} />
                 <span className="mt-0.5">Logout</span>
               </button>
             )}
-            <Link
-              href="#"
-              className="hidden flex-col items-center text-xs text-navy hover:text-royal sm:flex"
-            >
+            <Link href="#" className="flex flex-col items-center text-xs hover:text-royal transition-colors">
               <Heart size={20} />
               <span className="mt-0.5">Wishlist</span>
             </Link>
-            <Link
-              href="/cart"
-              className="relative flex flex-col items-center text-xs text-navy hover:text-royal"
-            >
+            <Link href="/cart" className="relative flex flex-col items-center text-xs hover:text-royal transition-colors">
               <ShoppingBag size={20} />
-              <span className="mt-0.5 hidden sm:block">Cart</span>
+              <span className="mt-0.5">Cart</span>
               {count > 0 && (
-                <span className="absolute -right-2 -top-1.5 flex h-4.5 w-4.5 min-w-[18px] items-center justify-center rounded-full bg-royal px-1 text-[10px] font-bold text-white">
+                <span className="absolute -right-2 -top-1.5 flex min-w-[18px] h-[18px] items-center justify-center rounded-full bg-royal px-1 text-[10px] font-bold text-white">
+                  {count}
+                </span>
+              )}
+            </Link>
+          </div>
+
+          {/* Mobile: Cart + Hamburger */}
+          <div className="flex md:hidden items-center gap-3 ml-auto">
+            <Link href={loggedIn ? "/account" : "/login"} className="text-navy hover:text-royal">
+              <User size={22} />
+            </Link>
+            <Link href="/cart" className="relative text-navy hover:text-royal">
+              <ShoppingBag size={22} />
+              {count > 0 && (
+                <span className="absolute -right-1.5 -top-1.5 flex min-w-[17px] h-[17px] items-center justify-center rounded-full bg-royal px-1 text-[10px] font-bold text-white">
                   {count}
                 </span>
               )}
             </Link>
             <button
               onClick={() => setMobileOpen((v) => !v)}
-              className="rounded-lg p-1.5 text-navy hover:bg-silver-light md:hidden"
+              className="rounded-lg p-1.5 text-navy hover:bg-silver-light transition-colors"
               aria-label="Menu"
             >
-              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileOpen ? <X size={24} /> : <AlignJustify size={24} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Category nav bar */}
+      {/* ── Category nav bar — desktop ── */}
       <div className="hidden border-b border-silver-light bg-white shadow-sm md:block">
         <div className="container-page flex items-stretch">
+
           {/* All Categories dropdown */}
           <div
             className="relative"
             onMouseEnter={() => setCatOpen(true)}
             onMouseLeave={() => setCatOpen(false)}
           >
-            <button className="flex h-full items-center gap-2 rounded-t bg-navy px-5 py-3 text-sm font-semibold text-white">
-              <Menu size={18} /> All Categories
-              <ChevronDown size={16} />
+            <button className="flex h-full items-center gap-2 bg-navy px-5 py-3 text-sm font-semibold text-white hover:bg-navy-dark transition-colors">
+              <AlignJustify size={16} />
+              <span>All Categories</span>
+              <ChevronDown size={14} />
             </button>
             {catOpen && (
-              <div className="absolute left-0 top-full z-50 max-h-[70vh] w-72 overflow-y-auto overscroll-contain rounded-b-lg border border-silver-light bg-white py-2 shadow-card-hover">
+              <div className="absolute left-0 top-full z-50 max-h-[70vh] w-72 overflow-y-auto overscroll-contain rounded-b-lg border border-silver-light bg-white py-2 shadow-xl">
                 {categories.map((c) => (
                   <Link
                     key={c.slug}
                     href={`/products?category=${c.slug}`}
-                    className="block px-4 py-2 text-sm text-navy hover:bg-cloud hover:text-royal"
+                    className="block px-4 py-2 text-sm text-navy hover:bg-cloud hover:text-royal transition-colors"
                   >
                     {c.name}
                   </Link>
@@ -243,7 +234,7 @@ export default function Navbar() {
           </div>
 
           {/* Nav links */}
-          <nav className="flex flex-1 flex-wrap items-center gap-1 px-2">
+          <nav className="flex flex-1 flex-wrap items-center">
             {navLinks.map((l) =>
               l.label === "Shop" ? (
                 <div
@@ -254,20 +245,18 @@ export default function Navbar() {
                 >
                   <Link
                     href={l.href}
-                    className="flex items-center gap-1 whitespace-nowrap px-3 py-3 text-sm font-medium text-navy hover:text-royal"
+                    className="flex items-center gap-1 whitespace-nowrap px-3 py-3 text-sm font-medium text-navy hover:text-royal transition-colors"
                   >
                     {l.label}
-                    <ChevronDown size={14} />
+                    <ChevronDown size={13} />
                   </Link>
-
-                  {/* Shop dropdown */}
                   {shopOpen && (
-                    <div className="absolute left-0 top-full z-50 w-56 rounded-b-lg border border-silver-light bg-white py-2 shadow-card-hover">
+                    <div className="absolute left-0 top-full z-50 w-52 rounded-b-lg border border-silver-light bg-white py-2 shadow-xl">
                       {shopMenu.map((m) => (
                         <Link
                           key={m.label}
                           href={m.href}
-                          className="block px-4 py-2.5 text-sm text-navy hover:bg-cloud hover:text-royal"
+                          className="block px-4 py-2.5 text-sm text-navy hover:bg-cloud hover:text-royal transition-colors"
                         >
                           {m.label}
                         </Link>
@@ -279,10 +268,10 @@ export default function Navbar() {
                 <Link
                   key={l.label}
                   href={l.href}
-                  className="flex items-center gap-1 whitespace-nowrap px-3 py-3 text-sm font-medium text-navy hover:text-royal"
+                  className="flex items-center gap-1 whitespace-nowrap px-3 py-3 text-sm font-medium text-navy hover:text-royal transition-colors"
                 >
                   {l.label}
-                  {l.dropdown && <ChevronDown size={14} />}
+                  {l.dropdown && <ChevronDown size={13} />}
                 </Link>
               )
             )}
@@ -291,55 +280,158 @@ export default function Navbar() {
           {/* Sell on Hardvanta */}
           <Link
             href="#"
-            className="flex items-center gap-2 border-l border-silver-light bg-cloud px-5 py-3 text-sm font-semibold text-navy hover:text-royal"
+            className="flex items-center gap-2 border-l border-silver-light bg-cloud px-5 py-3 text-sm font-semibold text-navy hover:text-royal transition-colors"
           >
-            <ShoppingBag size={18} /> Sell on Hardvanta
+            <ShoppingBag size={16} />
+            Sell on Hardvanta
           </Link>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* ── Mobile menu (full drawer) ── */}
       {mobileOpen && (
-        <div className="border-b border-silver-light bg-white md:hidden">
-          <div className="container-page py-3">
+        <div className="fixed inset-0 top-[105px] z-40 overflow-y-auto bg-white md:hidden">
+          <div className="px-4 pb-8 pt-3">
+
+            {/* Mobile Search */}
             <form
               onSubmit={handleSearch}
-              className="mb-3 flex items-center overflow-hidden rounded-lg border border-silver"
+              className="mb-4 flex items-center overflow-hidden rounded-full border border-silver shadow-sm"
             >
+              <span className="pl-4 text-silver-dark">
+                <Search size={16} />
+              </span>
               <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search for Products..."
-                className="w-full px-3 py-2 text-sm outline-none"
+                className="w-full px-3 py-2.5 text-sm outline-none"
               />
-              <button type="submit" className="bg-royal px-4 py-2 text-white">
-                <Search size={18} />
+              <button type="submit" className="m-1 rounded-full bg-royal px-4 py-2 text-white">
+                <Search size={16} />
               </button>
             </form>
-            {navLinks.map((l) => (
-              <Link
-                key={l.label}
-                href={l.href}
-                onClick={() => setMobileOpen(false)}
-                className="block border-b border-silver-light py-2.5 text-sm font-medium text-navy"
+
+            {/* Nav Links */}
+            <div className="mb-4 rounded-xl border border-silver-light overflow-hidden">
+              {navLinks.map((l, i) => (
+                <Link
+                  key={l.label}
+                  href={l.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex items-center justify-between px-4 py-3 text-sm font-medium text-navy hover:bg-cloud hover:text-royal transition-colors ${
+                    i !== navLinks.length - 1 ? "border-b border-silver-light" : ""
+                  }`}
+                >
+                  <span>{l.label}</span>
+                  {l.dropdown && <ChevronDown size={14} className="text-silver-dark" />}
+                </Link>
+              ))}
+            </div>
+
+            {/* All Categories accordion */}
+            <div className="mb-4 rounded-xl border border-silver-light overflow-hidden">
+              <button
+                onClick={() => setMobileCatOpen((v) => !v)}
+                className="flex w-full items-center justify-between bg-navy px-4 py-3 text-sm font-semibold text-white"
               >
-                {l.label}
-              </Link>
-            ))}
-            <p className="mt-3 mb-1 text-xs font-semibold uppercase text-silver-dark">
-              Categories
-            </p>
-            {categories.map((c) => (
+                <span className="flex items-center gap-2">
+                  <AlignJustify size={15} /> All Categories
+                </span>
+                <ChevronDown
+                  size={15}
+                  className={`transition-transform ${mobileCatOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+              {mobileCatOpen && (
+                <div className="max-h-60 overflow-y-auto">
+                  {categories.map((c, i) => (
+                    <Link
+                      key={c.slug}
+                      href={`/products?category=${c.slug}`}
+                      onClick={() => setMobileOpen(false)}
+                      className={`block px-4 py-2.5 text-sm text-navy hover:bg-cloud hover:text-royal transition-colors ${
+                        i !== categories.length - 1 ? "border-b border-silver-light" : ""
+                      }`}
+                    >
+                      {c.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Account actions */}
+            <div className="mb-4 rounded-xl border border-silver-light overflow-hidden">
               <Link
-                key={c.slug}
-                href={`/products?category=${c.slug}`}
+                href={loggedIn ? "/account" : "/login"}
                 onClick={() => setMobileOpen(false)}
-                className="block border-b border-silver-light py-2.5 text-sm text-navy"
+                className="flex items-center gap-3 border-b border-silver-light px-4 py-3 text-sm font-medium text-navy hover:bg-cloud"
               >
-                {c.name}
+                <User size={18} className="text-royal" />
+                {loggedIn ? "My Account" : "Login / Register"}
               </Link>
-            ))}
+              <Link
+                href="/orders"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 border-b border-silver-light px-4 py-3 text-sm font-medium text-navy hover:bg-cloud"
+              >
+                <Package size={18} className="text-royal" />
+                My Orders
+              </Link>
+              <Link
+                href="#"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-navy hover:bg-cloud"
+              >
+                <Heart size={18} className="text-royal" />
+                Wishlist
+              </Link>
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-3 border-t border-silver-light px-4 py-3 text-sm font-semibold text-royal hover:bg-cloud"
+                >
+                  <LayoutDashboard size={18} />
+                  Admin Dashboard
+                </Link>
+              )}
+              {loggedIn && (
+                <button
+                  onClick={() => { signOut({ callbackUrl: "/" }); setMobileOpen(false); }}
+                  className="flex w-full items-center gap-3 border-t border-silver-light px-4 py-3 text-sm font-medium text-navy hover:bg-cloud"
+                >
+                  <LogOut size={18} className="text-royal" />
+                  Logout
+                </button>
+              )}
+            </div>
+
+            {/* Social links */}
+            <div className="flex items-center justify-center gap-4 pt-2">
+              {socials.map(({ Icon, href }, i) => (
+                <a
+                  key={i}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-silver-light text-navy hover:border-royal hover:text-royal transition-colors"
+                >
+                  <Icon size={17} />
+                </a>
+              ))}
+            </div>
+
+            {/* Contact */}
+            <div className="mt-4 rounded-xl border border-silver-light bg-cloud px-4 py-3 text-center">
+              <p className="text-xs text-silver-dark">Customer Support (9:15 AM – 6:15 PM, Mon–Sat)</p>
+              <a href="tel:+919170546395" className="mt-1 flex items-center justify-center gap-2 font-semibold text-navy hover:text-royal">
+                <Phone size={15} className="text-royal" />
+                +91 91705 46395
+              </a>
+            </div>
           </div>
         </div>
       )}
