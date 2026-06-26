@@ -163,7 +163,7 @@ export default function CareersPage() {
               color: "rgba(255,255,255,0.78)",
               lineHeight: 1.75, maxWidth: "520px", marginBottom: "6px",
             }}>
-              India's go-to store for robotics, electronics, and DIY engineering.
+              India&apos;s go-to store for robotics, electronics, and DIY engineering.
               If you want to help people bring their ideas to life — you belong here. 🤝
             </p>
 
@@ -310,7 +310,7 @@ export default function CareersPage() {
             </div>
 
             <p style={{ fontSize: "clamp(13.5px,3vw,15px)", color: "#374151", lineHeight: 1.8, marginBottom: "4px" }}>
-              These aren't posters on a wall — they're how we actually work every day.
+              These aren&apos;t posters on a wall — they&apos;re how we actually work every day.
             </p>
 
             <div className="values-grid">
@@ -337,7 +337,7 @@ export default function CareersPage() {
               fontSize: "clamp(12.5px,2.8vw,13.5px)", color: "#1e3a8a", lineHeight: 1.65,
             }}>
               <strong>💡 Our belief: </strong>
-              The best engineers aren't always the ones with the fanciest degrees — they're the ones who can't stop building. If that's you, we'd love to talk.
+              The best engineers aren&apos;t always the ones with the fanciest degrees — they&apos;re the ones who can&apos;t stop building. If that&apos;s you, we&apos;d love to talk.
             </div>
           </div>
 
@@ -361,7 +361,7 @@ export default function CareersPage() {
                 display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px",
               }}>🎁</div>
               <h2 style={{ fontSize: "clamp(16px,4vw,20px)", fontWeight: 800, color: "#111827" }}>
-                Perks & Benefits
+                Perks &amp; Benefits
               </h2>
             </div>
 
@@ -425,8 +425,8 @@ export default function CareersPage() {
                 No open roles right now
               </p>
               <p style={{ fontSize: "clamp(13px,3vw,14px)", color: "#6b7280", lineHeight: 1.7, maxWidth: "400px", margin: "0 auto 0" }}>
-                We're not actively hiring at the moment — but great people don't wait for job postings. 
-                Send us your resume and tell us what you'd love to build with us.
+                We&apos;re not actively hiring at the moment — but great people don&apos;t wait for job postings. 
+                Send us your resume and tell us what you&apos;d love to build with us.
               </p>
             </div>
 
@@ -436,7 +436,7 @@ export default function CareersPage() {
               fontSize: "clamp(12.5px,2.8vw,13.5px)", color: "#1e3a8a", lineHeight: 1.65,
             }}>
               <strong>💡 Heads up: </strong>
-              We review every application carefully. If your skills and passion are a match, we'll reach out — even if there's no active role.
+              We review every application carefully. If your skills and passion are a match, we&apos;ll reach out — even if there&apos;s no active role.
             </div>
           </div>
 
@@ -460,14 +460,14 @@ export default function CareersPage() {
                 fontSize: "clamp(17px,4vw,22px)", fontWeight: 800,
                 color: "#ffffff", marginBottom: "10px",
               }}>
-                Don't see your role? Send your resume anyway.
+                Don&apos;t see your role? Send your resume anyway.
               </h3>
               <p style={{
                 fontSize: "clamp(13px,3vw,14.5px)", color: "rgba(255,255,255,0.72)",
                 marginBottom: "28px", lineHeight: 1.7, maxWidth: "460px", margin: "0 auto 24px",
               }}>
-                We love meeting passionate builders even when we're not actively hiring.
-                Share what you've made and what you'd love to work on — that's how most of our best hires found us. 🚀
+                We love meeting passionate builders even when we&apos;re not actively hiring.
+                Share what you&apos;ve made and what you&apos;d love to work on — that&apos;s how most of our best hires found us. 🚀
               </p>
 
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px" }}>
