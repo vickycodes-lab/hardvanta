@@ -31,7 +31,7 @@ export default function ATLKitsEnquiryPage() {
         <div className="bg-white rounded-2xl shadow-lg p-10 max-w-md w-full text-center">
           <div className="flex justify-center mb-4"><CheckCircle2 size={56} className="text-royal" /></div>
           <h2 className="text-2xl font-semibold text-navy mb-3">Enquiry Submitted!</h2>
-          <p className="text-gray-500 mb-6">Thank you. Our ATL team will contact you within 48 hours with a customised quote.</p>
+          <p className="text-gray-500 mb-6">Thank you. Our ATL team will contact you within 48 hours.</p>
           <Link href="/" className="inline-block bg-royal text-white font-semibold px-6 py-3 rounded-lg hover:bg-navy transition-colors">Back to Home</Link>
         </div>
       </main>
