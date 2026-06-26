@@ -1,4 +1,4 @@
-import Link from "next/link";
+ï»¿import Link from "next/link";
 import {
   Facebook, Instagram, Youtube, Twitter, Linkedin, Mail, Phone,
 } from "lucide-react";
@@ -56,12 +56,11 @@ export default function Footer() {
   return (
     <footer className="mt-16 bg-navy text-silver-light">
 
-      {/* Newsletter strip */}
       <div className="border-b border-white/10 bg-navy-dark">
         <div className="container-page grid items-center gap-6 py-8 md:grid-cols-2">
           <div>
             <h3 className="text-lg font-bold text-white">Subscribe to our Newsletter</h3>
-            <p className="mt-1 text-sm text-silver">Get promotional offers & discounts straight to your inbox.</p>
+            <p className="mt-1 text-sm text-silver">Get promotional offers and discounts straight to your inbox.</p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <input type="text" placeholder="First Name" className="w-full rounded-lg border border-white/10 bg-white/10 px-4 py-2.5 text-sm text-white placeholder-silver outline-none focus:border-royal sm:w-1/3" />
@@ -73,10 +72,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Main grid */}
       <div className="container-page grid grid-cols-2 gap-8 py-12 md:grid-cols-6">
-
-        {/* Brand col */}
         <div className="col-span-2">
           <Logo size={44} />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-silver">
@@ -95,15 +91,14 @@ export default function Footer() {
 
           <div className="mt-5 flex gap-3">
             <a href="#" className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-xs text-white hover:border-royal hover:bg-white/10 transition-colors">
-              ? Google Play
+              Google Play
             </a>
             <a href="#" className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-xs text-white hover:border-royal hover:bg-white/10 transition-colors">
-              ?? App Store
+              App Store
             </a>
           </div>
         </div>
 
-        {/* 4 Link columns */}
         {columns.map((col) => (
           <div key={col.title}>
             <h4 className="mb-4 text-sm font-bold text-white">{col.title}</h4>
@@ -120,10 +115,9 @@ export default function Footer() {
         ))}
       </div>
 
-      {/* Bottom bar */}
       <div className="border-t border-white/10">
         <div className="container-page flex flex-col items-center justify-between gap-4 py-5 sm:flex-row">
-          <p className="text-xs text-silver/70">© 2026 Hardvanta – All Rights Reserved.</p>
+          <p className="text-xs text-silver/70">2026 Hardvanta - All Rights Reserved.</p>
           <div className="flex gap-2">
             {socials.map(({ Icon, href, label }, i) => (
               <a key={i} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
