@@ -34,7 +34,7 @@ const navLinks = [
   { label: "Forum", href: "#" },
   { label: "Bulk Enquiry", href: "#" },
   { label: "New Arrivals", href: "/products" },
-  { label: "ATL Kits Enquiry", href: "#" },
+  { label: "ATL Kits Enquiry", href: "/atl-kits-enquiry" },
   { label: "Blogs", href: "#", dropdown: true },
   { label: "BOM Tool", href: "#" },
   { label: "Careers", href: "#" },
