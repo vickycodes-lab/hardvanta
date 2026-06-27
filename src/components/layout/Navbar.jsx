@@ -68,7 +68,7 @@ export default function Navbar() {
   const loggedIn = status === "authenticated";
   const isAdmin = session?.user?.role === "ADMIN";
 
-  const [mobileOpen, setMobileOpen]       = useState(false);
+  const [mobileOpen, setMobileOpen]       = useState(false); // Menu drawer
   const [catOpen, setCatOpen]             = useState(false);
   const [shopOpen, setShopOpen]           = useState(false);
   const [mobileCatOpen, setMobileCatOpen] = useState(false);
@@ -194,24 +194,46 @@ export default function Navbar() {
       {/* ── Row 3 MOBILE: ≡ All Categories  icons  ≡ Menu ── */}
       <div className="border-b border-silver-light bg-white md:hidden">
         <div className="flex items-center justify-between px-4 py-2">
-          <button onClick={() => setMobileOpen((v) => !v)}
+          {/* All Categories — apni alag state */}
+          <button
+            onClick={() => { setMobileCatOpen((v) => !v); setMobileOpen(false); }}
             className="flex items-center gap-1.5 text-sm font-semibold text-navy">
             <AlignJustify size={18} />
             <span>All Categories</span>
-            <ChevronDown size={14} />
+            <ChevronDown size={14} className={`transition-transform ${mobileCatOpen ? "rotate-180" : ""}`} />
           </button>
+
           <div className="flex items-center gap-5 text-navy">
             <Link href="#" title="Compare"><Repeat size={20} /></Link>
             <Link href="/orders" title="Orders"><Package size={20} /></Link>
             {isAdmin && <Link href="/admin"><LayoutDashboard size={20} className="text-royal" /></Link>}
           </div>
-          <button onClick={() => setMobileOpen((v) => !v)}
+
+          {/* Menu — apni alag state */}
+          <button
+            onClick={() => { setMobileOpen((v) => !v); setMobileCatOpen(false); }}
             className="flex items-center gap-1.5 text-sm font-semibold text-navy">
             <Menu size={18} />
             <span>Menu</span>
           </button>
         </div>
       </div>
+
+      {/* ── All Categories dropdown (mobile bar se) ── */}
+      {mobileCatOpen && (
+        <div className="border-b border-silver-light bg-white md:hidden">
+          <div className="max-h-64 overflow-y-auto">
+            {categories.map((c, i) => (
+              <Link key={c.slug} href={`/products?category=${c.slug}`}
+                onClick={() => setMobileCatOpen(false)}
+                className={`block px-4 py-2.5 text-sm text-navy hover:bg-cloud hover:text-royal transition-colors ${
+                  i !== categories.length - 1 ? "border-b border-silver-light" : ""}`}>
+                {c.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ── Row 3 DESKTOP: Full nav bar ── */}
       <div className="hidden border-b border-silver-light bg-white shadow-sm md:block">
