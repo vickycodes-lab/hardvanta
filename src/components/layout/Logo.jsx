@@ -27,8 +27,13 @@ export default function Logo({ onBadge = true, showWordmark = true, size = 40 })
         />
       </span>
       {showWordmark && (
-        <span className="text-xl font-extrabold tracking-tight">
-          Hard<span className="text-royal-light">vanta</span>
+        <span className="flex flex-col leading-none">
+          <span className="text-xl font-extrabold tracking-tight">
+            Hard<span className="text-royal">vanta</span>
+          </span>
+          <span className="text-[9px] font-semibold tracking-[0.18em] text-silver-dark uppercase mt-0.5">
+            Technologies
+          </span>
         </span>
       )}
     </Link>

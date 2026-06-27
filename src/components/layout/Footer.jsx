@@ -1,8 +1,22 @@
 ﻿import Link from "next/link";
 import {
-  Facebook, Instagram, Youtube, Twitter, Linkedin, Mail, Phone,
+  Facebook,
+  Instagram,
+  Youtube,
+  Linkedin,
+  Mail,
+  Phone,
 } from "lucide-react";
 import Logo from "./Logo";
+
+// X (Twitter) official SVG — lucide mein Twitter icon nahi hota
+function XIcon({ size = 15 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" />
+    </svg>
+  );
+}
 
 const columns = [
   {
@@ -46,9 +60,17 @@ const columns = [
 
 const socials = [
   { Icon: Facebook, href: "#", label: "Facebook" },
-  { Icon: Twitter, href: "#", label: "Twitter" },
-  { Icon: Linkedin, href: "https://www.linkedin.com/company/hardvanta-technologies-llp/posts/?feedView=all", label: "LinkedIn" },
-  { Icon: Instagram, href: "https://www.instagram.com/hardvantatechnology", label: "Instagram" },
+  { Icon: XIcon,    href: "#", label: "X (Twitter)" },
+  {
+    Icon: Linkedin,
+    href: "https://www.linkedin.com/company/hardvanta-technologies-llp/posts/?feedView=all",
+    label: "LinkedIn",
+  },
+  {
+    Icon: Instagram,
+    href: "https://www.instagram.com/hardvantatechnology",
+    label: "Instagram",
+  },
   { Icon: Youtube, href: "#", label: "YouTube" },
 ];
 
@@ -56,56 +78,98 @@ export default function Footer() {
   return (
     <footer className="mt-16 bg-navy text-silver-light">
 
+      {/* Newsletter */}
       <div className="border-b border-white/10 bg-navy-dark">
         <div className="container-page grid items-center gap-6 py-8 md:grid-cols-2">
           <div>
-            <h3 className="text-lg font-bold text-white">Subscribe to our Newsletter</h3>
-            <p className="mt-1 text-sm text-silver">Get promotional offers and discounts straight to your inbox.</p>
+            <h3 className="text-lg font-bold text-white">
+              Subscribe to our Newsletter
+            </h3>
+            <p className="mt-1 text-sm text-silver">
+              Get promotional offers &amp; discounts straight to your inbox.
+            </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <input type="text" placeholder="First Name" className="w-full rounded-lg border border-white/10 bg-white/10 px-4 py-2.5 text-sm text-white placeholder-silver outline-none focus:border-royal sm:w-1/3" />
-            <input type="email" placeholder="Email Id" className="w-full flex-1 rounded-lg border border-white/10 bg-white/10 px-4 py-2.5 text-sm text-white placeholder-silver outline-none focus:border-royal" />
-            <button type="button" className="flex items-center justify-center gap-2 rounded-lg bg-royal px-5 py-2.5 text-sm font-semibold text-white hover:bg-royal-light transition-colors">
-              <Mail size={15} /> Subscribe
+            <input
+              type="text"
+              placeholder="First Name"
+              className="w-full rounded-lg border border-white/10 bg-white/10 px-4 py-2.5 text-sm text-white placeholder-silver outline-none focus:border-royal sm:w-1/3"
+            />
+            <input
+              type="email"
+              placeholder="Email ID"
+              className="w-full flex-1 rounded-lg border border-white/10 bg-white/10 px-4 py-2.5 text-sm text-white placeholder-silver outline-none focus:border-royal"
+            />
+            <button
+              type="button"
+              className="flex items-center justify-center gap-2 rounded-lg bg-royal px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-royal-light"
+            >
+              <Mail size={15} />
+              Subscribe
             </button>
           </div>
         </div>
       </div>
 
+      {/* Main grid */}
       <div className="container-page grid grid-cols-2 gap-8 py-12 md:grid-cols-6">
+
+        {/* Brand col */}
         <div className="col-span-2">
           <Logo size={44} />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-silver">
-            India&apos;s store for robotics, electronics and DIY engineering products. Your ideas, our parts!
+            India&apos;s trusted store for robotics, electronics and DIY
+            engineering products.
           </p>
-          <p className="mt-1 text-xs text-silver/70">A unit of Hardvanta Technologies LLP</p>
+          <p className="mt-1 text-xs text-silver/70">
+            A unit of Hardvanta Technologies LLP
+          </p>
 
           <div className="mt-6">
-            <p className="text-xs font-semibold uppercase tracking-wider text-silver/60">Got Questions?</p>
-            <p className="mt-0.5 text-xs text-silver">Call us 9:15 AM - 6:15 PM, Mon-Sat</p>
-            <a href="tel:+919170546395" className="mt-2 flex items-center gap-2 text-white hover:text-royal-light transition-colors">
+            <p className="text-xs font-semibold uppercase tracking-wider text-silver/60">
+              Got Questions?
+            </p>
+            <p className="mt-1 text-xs text-silver">
+              Call us 9:15 AM – 6:15 PM, Mon–Sat
+            </p>
+            <a
+              href="tel:+919170546395"
+              className="mt-2 flex items-center gap-2 text-white transition-colors hover:text-royal-light"
+            >
               <Phone size={15} className="text-royal-light" />
               <span className="font-semibold">+91 91705 46395</span>
             </a>
           </div>
 
           <div className="mt-5 flex gap-3">
-            <a href="#" className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-xs text-white hover:border-royal hover:bg-white/10 transition-colors">
-              Google Play
+            <a
+              href="#"
+              className="rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-xs text-white transition-colors hover:border-royal hover:bg-white/10"
+            >
+              ▶ Google Play
             </a>
-            <a href="#" className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-xs text-white hover:border-royal hover:bg-white/10 transition-colors">
-              App Store
+            <a
+              href="#"
+              className="rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-xs text-white transition-colors hover:border-royal hover:bg-white/10"
+            >
+               App Store
             </a>
           </div>
         </div>
 
+        {/* Link columns */}
         {columns.map((col) => (
           <div key={col.title}>
-            <h4 className="mb-4 text-sm font-bold text-white">{col.title}</h4>
+            <h4 className="mb-4 text-sm font-bold text-white">
+              {col.title}
+            </h4>
             <ul className="space-y-2.5 text-sm">
               {col.links.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-silver hover:text-royal-light transition-colors">
+                  <Link
+                    href={link.href}
+                    className="text-silver transition-colors hover:text-royal-light"
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -115,13 +179,22 @@ export default function Footer() {
         ))}
       </div>
 
+      {/* Bottom bar */}
       <div className="border-t border-white/10">
         <div className="container-page flex flex-col items-center justify-between gap-4 py-5 sm:flex-row">
-          <p className="text-xs text-silver/70">2026 Hardvanta - All Rights Reserved.</p>
+          <p className="text-xs text-silver/70">
+            &copy; 2026 Hardvanta. All Rights Reserved.
+          </p>
           <div className="flex gap-2">
-            {socials.map(({ Icon, href, label }, i) => (
-              <a key={i} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white hover:border-royal hover:bg-royal transition-colors">
+            {socials.map(({ Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white transition-colors hover:border-royal hover:bg-royal"
+              >
                 <Icon size={15} />
               </a>
             ))}
