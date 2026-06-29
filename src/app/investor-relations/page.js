@@ -90,8 +90,8 @@ export default function InvestorRelationsPage() {
             <div style={s.statLabel}>Products Listed</div>
           </div>
           <div style={s.stat}>
-            <div style={s.statValue}>5<span style={s.statAccent}>+</span></div>
-            <div style={s.statLabel}>Years of Operations</div>
+            <div style={s.statValue}>2026<span style={s.statAccent}>+</span></div>
+            <div style={s.statLabel}>Est. April 2026</div>
           </div>
           <div style={s.stat}>
             <div style={s.statValue}>Pan<span style={s.statAccent}>-IN</span></div>
