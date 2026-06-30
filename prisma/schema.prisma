@@ -182,3 +182,21 @@ model BulkEnquiry {
   status       EnquiryStatus @default(NEW)
   createdAt    DateTime      @default(now())
 }
+
+model Blog {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  content     String
+  coverImage  String
+  category    String   @default("General")
+  author      String   @default("Hardvanta Team")
+  published   Boolean  @default(true)
+  views       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([published])
+}

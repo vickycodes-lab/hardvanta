@@ -1,0 +1,18 @@
+import { notFound } from "next/navigation";
+import BlogForm from "@/components/admin/BlogForm";
+
+export const dynamic = "force-dynamic";
+
+export default async function EditBlogPage({ params }) {
+  const { id } = await params;
+  const { prisma } = await import("@/lib/prisma");
+  const blog = await prisma.blog.findUnique({ where: { id } });
+  if (!blog) notFound();
+
+  return (
+    <div>
+      <h1 className="mb-6 text-2xl font-bold text-navy">Edit Blog</h1>
+      <BlogForm initial={blog} />
+    </div>
+  );
+}
