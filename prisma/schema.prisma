@@ -161,3 +161,24 @@ model Review {
   comment   String
   createdAt DateTime @default(now())
 }
+
+enum EnquiryStatus {
+  NEW
+  CONTACTED
+  QUOTED
+  CLOSED
+}
+
+model BulkEnquiry {
+  id           String        @id @default(cuid())
+  name         String
+  organization String?
+  email        String
+  phone        String
+  enquiryType  String        // "School/College", "Reseller", "Corporate", "Other"
+  products     String
+  quantity     String
+  message      String?
+  status       EnquiryStatus @default(NEW)
+  createdAt    DateTime      @default(now())
+}
