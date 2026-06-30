@@ -38,12 +38,11 @@ function XIcon({ size = 16 }) {
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Shop", href: "/products", dropdown: true },
-  { label: "Forum", href: "#" },
   { label: "Bulk Enquiry", href: "/bulk-enquiry" },
   { label: "New Arrivals", href: "/products" },
   { label: "ATL Kits Enquiry", href: "/atl-kits-enquiry" },
   { label: "Blogs", href: "/blogs" },
-  { label: "BOM Tool", href: "#" },
+  { label: "Tools", href: "/tools" },
 ];
 
 const shopMenu = [
